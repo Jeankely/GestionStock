@@ -3,6 +3,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { Mail, KeyRound, Send, ShieldCheck } from 'lucide-react';
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -18,53 +19,121 @@ export default function ForgotPassword({ status }) {
         <GuestLayout>
             <Head title="Mot de passe oublié" />
 
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-700 px-4">
-                
-                <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8">
-                    
-                    <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-4">
-                        Mot de passe oublié ?
-                    </h2>
-
-                    <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
-                        Entrez votre adresse email et nous vous enverrons un lien
-                        pour réinitialiser votre mot de passe.
-                    </p>
-
-                    {status && (
-                        <div className="mb-4 text-sm font-medium text-green-600 dark:text-green-400 text-center">
-                            {status}
-                        </div>
-                    )}
-
-                    <form onSubmit={submit} className="space-y-5">
-
-                        <div>
-                            <TextInput
-                                id="email"
-                                type="email"
-                                name="email"
-                                value={data.email}
-                                className="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                placeholder="Votre adresse email"
-                                isFocused={true}
-                                onChange={(e) => setData('email', e.target.value)}
-                            />
-                            <InputError message={errors.email} className="mt-2" />
-                        </div>
-
-                        <div>
-                            <PrimaryButton
-                                className="w-full justify-center py-3 text-lg bg-indigo-600 hover:bg-indigo-700 transition duration-300 rounded-lg"
-                                disabled={processing}
-                            >
-                                Envoyer le lien
-                            </PrimaryButton>
-                        </div>
-
-                    </form>
+            <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-slate-900">
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute -top-16 -left-10 h-72 w-72 rounded-full bg-white blur-3xl" />
+                    <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-300 blur-3xl" />
                 </div>
-            </div>
+
+                <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">
+                    <div className="grid w-full items-center gap-10 lg:grid-cols-2">
+                        {/* Bloc gauche */}
+                        <div className="hidden text-white lg:block">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
+                                <ShieldCheck className="h-4 w-4" />
+                                Assistance sécurisée
+                            </div>
+
+                            <h1 className="mt-6 text-4xl font-extrabold leading-tight xl:text-5xl">
+                                Réinitialisez votre mot de passe
+                            </h1>
+
+                            <p className="mt-5 max-w-xl text-base leading-8 text-cyan-50">
+                                Saisissez votre adresse email pour recevoir un lien
+                                de réinitialisation et récupérer l’accès à votre
+                                espace de gestion de vente de matériel informatique.
+                            </p>
+
+                            <div className="mt-8 space-y-4">
+                                <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10">
+                                    <p className="font-semibold">
+                                        Procédure simple
+                                    </p>
+                                    <p className="mt-1 text-sm text-cyan-100">
+                                        Un lien de réinitialisation vous sera envoyé
+                                        rapidement à votre adresse email.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10">
+                                    <p className="font-semibold">
+                                        Sécurité renforcée
+                                    </p>
+                                    <p className="mt-1 text-sm text-cyan-100">
+                                        La réinitialisation du mot de passe reste
+                                        protégée pour sécuriser votre compte.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Formulaire */}
+                        <div className="mx-auto w-full max-w-md">
+                            <div className="rounded-3xl border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-slate-800 dark:bg-slate-900/95">
+                                <div className="mb-8 text-center">
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
+                                        <KeyRound className="h-8 w-8" />
+                                    </div>
+
+                                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                                        Mot de passe oublié ?
+                                    </h2>
+
+                                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                                        Entrez votre adresse email et nous vous
+                                        enverrons un lien pour réinitialiser votre
+                                        mot de passe.
+                                    </p>
+                                </div>
+
+                                {status && (
+                                    <div className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/20 dark:text-emerald-300">
+                                        {status}
+                                    </div>
+                                )}
+
+                                <form onSubmit={submit} className="space-y-5">
+                                    <div>
+                                        <label
+                                            htmlFor="email"
+                                            className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                        >
+                                            Adresse email
+                                        </label>
+
+                                        <div className="relative mt-2">
+                                            <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+
+                                            <TextInput
+                                                id="email"
+                                                type="email"
+                                                name="email"
+                                                value={data.email}
+                                                className="block w-full rounded-2xl border-slate-300 bg-white py-3 pl-12 pr-4 text-slate-900 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+                                                placeholder="Entrez votre adresse email"
+                                                isFocused={true}
+                                                onChange={(e) => setData('email', e.target.value)}
+                                            />
+                                        </div>
+
+                                        <InputError message={errors.email} className="mt-2" />
+                                    </div>
+
+                                    <PrimaryButton
+                                        className="w-full justify-center rounded-2xl bg-cyan-700 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-800 hover:shadow-xl"
+                                        disabled={processing}
+                                    >
+                                        <Send className="me-2 h-5 w-5" />
+                                        {processing
+                                            ? 'Envoi en cours...'
+                                            : 'Envoyer le lien'}
+                                    </PrimaryButton>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </GuestLayout>
     );
 }

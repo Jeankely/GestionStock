@@ -1,120 +1,90 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
-import VerticalLayout from '@/Layouts/VerticalLayout';// importation du layout vertical
+import { useState } from "react";
+import { usePage, Link } from "@inertiajs/react";
+import VerticalLayout from "@/Layouts/VerticalLayout";
+import {
+    Menu,
+    Bell,
+    Search,
+    Sun,
+    Moon,
+} from "lucide-react";
 
-export default function AuthenticatedLayout({ header, children }) {
-
-    const user = usePage().props.auth.user;
-
-    const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+export default function AuthenticatedLayout({ children }) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const { props } = usePage();
+    const user = props.auth.user;
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-16">
-
-            {/* ================= NAVBAR FIXE ================= */}
-            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
-
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-                    <div className="flex h-16 justify-between items-center">
-
-                        {/* Logo */}
-                        <div className="flex items-center gap-4">
-
-                            <Link href="/" className="flex items-center">
-                                <ApplicationLogo className="h-9 w-auto text-indigo-600 dark:text-indigo-400" />
-                            </Link>
-
-                            <div className="hidden md:flex space-x-6">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        {/* ===== RIGHT SIDE ===== */}
-                        <div className="flex items-center gap-4">
-
-                            {/* Hamburger Mobile Sidebar (DROITE) */}
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+            <VerticalLayout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen}>
+                {/* Topbar */}
+                <header className="sticky top-0 mb-6 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:px-6">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div className="flex items-center gap-3">
                             <button
-                                onClick={() => setMobileSidebarOpen(true)}
-                                className="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                type="button"
+                                onClick={() => setMobileOpen(true)}
+                                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-2.5 text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
                             >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
+                                <Menu className="h-5 w-5" />
                             </button>
 
-                            {/* User Menu Desktop */}
-                            <div className="hidden md:flex items-center">
-
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <button className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg text-sm">
-                                            {user.name}
-
-                                            <svg
-                                                className="h-4 w-4"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>
-                                            Mon Profil
-                                        </Dropdown.Link>
-
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Deconnexion
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-
+                            <div>
+                                <h1 className="text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
+                                    Bonjour, {user.name}
+                                </h1>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    Bienvenue dans votre espace d’administration
+                                </p>
                             </div>
-
                         </div>
 
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            {/* Search */}
+                            <div className="relative w-full sm:w-72">
+                                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher..."
+                                    className="w-full rounded-2xl border border-slate-300 bg-slate-50 py-2.5 pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:ring-cyan-900/30"
+                                />
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    <Bell className="h-5 w-5" />
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    <Sun className="h-5 w-5 dark:hidden" />
+                                    <Moon className="hidden h-5 w-5 dark:block" />
+                                </button>
+
+                                <Link
+                                    href={route("profile.edit")}
+                                    className="inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 text-xs font-bold text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
+                                        {user?.name?.charAt(0)?.toUpperCase()}
+                                    </div>
+                                    <span className="hidden sm:inline">
+                                        Mon profil
+                                    </span>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </header>
 
-            {/* ================= SIDEBAR + CONTENT ================= */}
-
-            <VerticalLayout
-                mobileOpen={mobileSidebarOpen}
-                setMobileOpen={setMobileSidebarOpen}
-            >
                 {children}
             </VerticalLayout>
-
         </div>
     );
 }
