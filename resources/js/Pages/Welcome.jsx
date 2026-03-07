@@ -37,7 +37,7 @@ export default function Home() {
     ].map((item, index) => (
         <div
             key={index}
-            className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl
+            className="bg-cyan p-6 rounded-2xl shadow-md hover:shadow-xl
             transition-all duration-300 hover:-translate-y-2"
         >
             <h3 className="text-xl font-semibold mb-3 text-cyan-700">

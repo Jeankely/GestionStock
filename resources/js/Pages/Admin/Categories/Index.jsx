@@ -2,32 +2,27 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, Head } from '@inertiajs/react';
 import { useState } from 'react';
-import VerticalLayout from '@/Layouts/VerticalLayout';// importation du layout vertical
+import VerticalLayout from '@/Layouts/VerticalLayout';
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function Index({ categories }) {
 
     const user = usePage().props.auth.user;
-
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-16">
-
-            {/* ================= NAVBAR FIXE ================= */}
+            <Head title="Catégories" />
+            {/* ================= NAVBAR ================= */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
-
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
                     <div className="flex h-16 justify-between items-center">
 
-                        {/* Logo */}
                         <div className="flex items-center gap-4">
-
                             <Link href="/" className="flex items-center">
-                                <ApplicationLogo className="h-9 w-auto text-indigo-600 dark:text-indigo-400" />
-                            </Link>
+                                <ApplicationLogo className="h-9 w-auto text-indigo-600" />
+                        </Link>
 
                             <div className="hidden md:flex space-x-6">
                                 <NavLink
@@ -39,53 +34,25 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
                         </div>
 
-                        {/* ===== RIGHT SIDE ===== */}
                         <div className="flex items-center gap-4">
-
-                            {/* Hamburger Mobile Sidebar (DROITE) */}
                             <button
                                 onClick={() => setMobileSidebarOpen(true)}
-                                className="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                className="md:hidden p-2 rounded-md"
                             >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
+                                ☰
                             </button>
 
-                            {/* User Menu Desktop */}
                             <div className="hidden md:flex items-center">
-
                                 <Dropdown>
                                     <Dropdown.Trigger>
-                                        <button className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg text-sm">
+                                        <button className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg text-sm">
                                             {user.name}
-
-                                            <svg
-                                                className="h-4 w-4"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                />
-                                            </svg>
                                         </button>
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('profile.edit')}>
-                                            Mon Profil
+                                            Profile
                                         </Dropdown.Link>
 
                                         <Dropdown.Link
@@ -93,13 +60,11 @@ export default function AuthenticatedLayout({ header, children }) {
                                             method="post"
                                             as="button"
                                         >
-                                            Deconnexion
+                                            Log Out
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
-
                             </div>
-
                         </div>
 
                     </div>
@@ -107,14 +72,47 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {/* ================= SIDEBAR + CONTENT ================= */}
-
             <VerticalLayout
                 mobileOpen={mobileSidebarOpen}
                 setMobileOpen={setMobileSidebarOpen}
             >
-                {children}
-            </VerticalLayout>
 
+                <div className="bg-white dark:bg-gray-800 shadow rounded-2xl p-6">
+
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-2xl font-bold text-indigo-600">
+                            Gestion des Catégories
+                        </h1>
+
+                        <Link
+                            href=""
+                            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+                        >
+                            + Ajouter
+                        </Link>
+                    </div>
+
+                    <table className="w-full border-collapse">
+                        <thead>
+                            <tr className="bg-gray-100 dark:bg-gray-700 text-left">
+                                <th className="p-3">#</th>
+                                <th className="p-3">Nom Catégorie</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {categories.map((categorie, index) => (
+                                <tr key={categorie.id} className="border-b">
+                                    <td className="p-3">{index + 1}</td>
+                                    <td className="p-3">{categorie.nom_categorie}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </VerticalLayout>
         </div>
     );
 }

@@ -7,7 +7,7 @@ use app\Models\Produit; //importation modele active (leh table jiab managn lien 
 
 class Categorie extends Model
 {
-    protected $fillable = ['nom_categorie'];// appelation attribut av @table vers model
+    protected $fillable = ['nom_categorie']; // appelation attribut av @table vers model
 
     public function produits()
     {

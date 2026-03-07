@@ -16,13 +16,13 @@ return new class extends Migration
             $table->decimal('prix', 10, 2);
             $table->integer('stock');
 
-             $table->foreignId('marque_id')
-                  ->constrained('marques')
-                  ->onDelete('cascade');
+            $table->foreignId('marque_id')
+                ->constrained('marques')
+                ->onDelete('cascade');
 
             $table->foreignId('categorie_id')
-                  ->constrained('categories')
-                  ->onDelete('cascade');
+                ->constrained('categories')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
