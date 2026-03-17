@@ -142,7 +142,7 @@ export default function Home() {
                                     </p>
                                     <ul className="mt-3 space-y-2 text-sm text-white/90">
                                         <li>• Suivre vos stocks avec précision</li>
-                                        <li>• Accélérer l’enregistrement des ventes</li>
+                                        <li>• Accélérer l'enregistrement des ventes</li>
                                         <li>• Mieux organiser votre catalogue produit</li>
                                     </ul>
                                 </div>
@@ -156,15 +156,15 @@ export default function Home() {
             <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                 <div className="mx-auto max-w-3xl text-center">
                     <span className="inline-block rounded-full bg-cyan-100 px-4 py-1 text-sm font-semibold text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                        Fonctionnalités principales
+                        Fonctionnalités principales de Mon projet
                     </span>
                     <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-                        Tout ce qu’il faut pour bien gérer votre activité
+                      Voici les trois bases principaux qu'il faut pour bien gérer notre activité
                     </h2>
                     <p className="mt-4 text-slate-600 dark:text-slate-400">
-                        Une plateforme pensée pour simplifier la vente, le suivi
+                        "Une plateforme pensée pour simplifier la vente, le suivi
                         des produits et la gestion du stock dans le domaine
-                        informatique.
+                        informatique".
                     </p>
                 </div>
 

@@ -64,7 +64,7 @@ export default function Contact() {
                                             Email
                                         </p>
                                         <p className="text-slate-600 dark:text-slate-400">
-                                            contact@jktechstore.com
+                                            jeansmall409from@gmail.com
                                         </p>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@ export default function Contact() {
                                             Téléphone
                                         </p>
                                         <p className="text-slate-600 dark:text-slate-400">
-                                            +261 34 00 000 00
+                                            +261 34 87 117 64
                                         </p>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@ export default function Contact() {
                                             Adresse
                                         </p>
                                         <p className="text-slate-600 dark:text-slate-400">
-                                            Antananarivo, Madagascar
+                                            Befandriana-Nord,Région SOFIA, Madagascar
                                         </p>
                                     </div>
                                 </div>

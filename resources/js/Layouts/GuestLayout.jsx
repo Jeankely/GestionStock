@@ -37,13 +37,15 @@ export default function GuestLayout({ children }) {
 
                             <div className="leading-tight">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                                        JK TechStore
+                                    <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                                        <h1 className="text-4xl font-extrabold text-black tracking-wide drop-shadow-lg">
+                                            JK TechStore
+                                        </h1>
                                     </span>
                                     <MonitorSmartphone className="hidden sm:block h-5 w-5 text-cyan-600 dark:text-cyan-400" />
                                 </div>
                                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                                    Gestion de vente de matériel informatique
+                                    La performance au coeur en matériel informatique
                                 </p>
                             </div>
                         </Link>
