@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categorie;//importation du model categorie
-use Inertia\Inertia;//importation du composant Inertia pour la redirection vers les vues
+use App\Models\Categorie;
+use Inertia\Inertia;
 class CategorieController extends Controller
 {
     public function index()

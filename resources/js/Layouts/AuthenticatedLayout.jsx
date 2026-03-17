@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { usePage, Link } from "@inertiajs/react";
 import VerticalLayout from "@/Layouts/VerticalLayout";
-import {
-    Menu,
-    Bell,
-    Search,
-    Sun,
-    Moon,
-} from "lucide-react";
+import { Menu, Bell, Search, Sun, Moon } from "lucide-react";
 
 export default function AuthenticatedLayout({ children }) {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,75 +9,74 @@ export default function AuthenticatedLayout({ children }) {
     const user = props.auth.user;
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+        <div className="h-screen overflow-hidden bg-slate-100 dark:bg-slate-950">
             <VerticalLayout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen}>
                 {/* Topbar */}
-                <header className="sticky top-0 mb-6 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:px-6">
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                        <div className="flex items-center gap-3">
-                            <button
-                                type="button"
-                                onClick={() => setMobileOpen(true)}
-                                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-2.5 text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
-                            >
-                                <Menu className="h-5 w-5" />
-                            </button>
-
-                            <div>
-                                <h1 className="text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
-                                    Bonjour, {user.name}
-                                </h1>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Bienvenue dans votre espace d’administration
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                            {/* Search */}
-                            <div className="relative w-full sm:w-72">
-                                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    className="w-full rounded-2xl border border-slate-300 bg-slate-50 py-2.5 pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:ring-cyan-900/30"
-                                />
-                            </div>
-
-                            {/* Actions */}
-                            <div className="flex items-center gap-2">
+                <header className="sticky top-0 z-30 w-full border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95">
+                    <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
+                        <div className="flex w-full flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+                            {/* Left block */}
+                            <div className="flex min-w-0 items-center gap-3">
                                 <button
                                     type="button"
-                                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                    onClick={() => setMobileOpen(true)}
+                                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 lg:hidden"
                                 >
-                                    <Bell className="h-5 w-5" />
+                                    <Menu className="h-5 w-5" />
                                 </button>
 
-                                <button
-                                    type="button"
-                                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                                >
-                                    <Sun className="h-5 w-5 dark:hidden" />
-                                    <Moon className="hidden h-5 w-5 dark:block" />
-                                </button>
+                                <div className="min-w-0">
+                                    <h1 className="truncate text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl lg:text-2xl">
+                                        Bonjour, {user.name}
+                                    </h1>
+                                    <p className="truncate text-sm text-slate-500 dark:text-slate-400">
+                                        Bienvenue dans votre espace d’administration
+                                    </p>
+                                </div>
+                            </div>
 
-                                <Link
-                                    href={route("profile.edit")}
-                                    className="inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                                >
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 text-xs font-bold text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                                        {user?.name?.charAt(0)?.toUpperCase()}
+                            {/* Right block */}
+                            <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center xl:w-auto">
+                                {/* Search */}
+                                <div className="relative w-full xl:w-[340px]">
+                                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        className="h-11 w-full rounded-2xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm text-slate-800 shadow-sm outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30"
+                                    />
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex w-full items-center justify-between gap-2 sm:justify-end lg:w-auto">
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                        >
+                                            <Bell className="h-5 w-5" />
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                        >
+                                            <Sun className="h-5 w-5 dark:hidden" />
+                                            <Moon className="hidden h-5 w-5 dark:block" />
+                                        </button>
                                     </div>
-                                    <span className="hidden sm:inline">
-                                        Mon profil
-                                    </span>
-                                </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </header>
 
-                {children}
+                {/* Content */}
+                <main className="flex-1 overflow-y-auto">
+                    <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
+                        {children}
+                    </div>
+                </main>
             </VerticalLayout>
         </div>
     );

@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ClientController; //pacckage pour client contoller
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\CategorieController; //pacckage pour categorie contoller
+use App\Http\Controllers\CategorieController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -16,9 +19,19 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Admin/Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

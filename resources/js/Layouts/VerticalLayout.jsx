@@ -12,6 +12,7 @@ import {
     MonitorSmartphone,
     ChevronRight,
     ShieldCheck,
+    Sparkles,
 } from "lucide-react";
 
 export default function VerticalLayout({
@@ -23,114 +24,152 @@ export default function VerticalLayout({
     const user = props.auth.user;
 
     const menu = [
-        { name: "Dashboard", route: "dashboard", icon: LayoutDashboard },
-        { name: "Catégories", route: "categories.index", icon: FolderTree },
-        { name: "Produits", route: "dashboard", icon: Package },
-        { name: "Ventes", route: "dashboard", icon: ShoppingCart },
-        { name: "Clients", route: "dashboard", icon: Users },
-        { name: "Rapports", route: "dashboard", icon: BarChart3 },
+        {
+            name: "Dashboard",
+            route: "dashboard",
+            activeRoutes: ["dashboard"],
+            icon: LayoutDashboard,
+        },
+        {
+            name: "Catégories",
+            route: "categories.index",
+            activeRoutes: ["categories.*"],
+            icon: FolderTree,
+        },
+        {
+            name: "Produits",
+            route: "products.index",
+            activeRoutes: ["products.*"],
+            icon: Package,
+        },
+        {
+            name: "Ventes",
+            route: "sales.index",
+            activeRoutes: ["sales.*"],
+            icon: ShoppingCart,
+        },
+        {
+            name: "Clients",
+            route: "clients.index",
+            activeRoutes: ["clients.*"],
+            icon: Users,
+        },
+        {
+            name: "Rapports",
+            route: "reports.index",
+            activeRoutes: ["reports.*"],
+            icon: BarChart3,
+        },
     ];
 
-    return (
-        <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
-            {/* Desktop Sidebar */}
-            <aside className="hidden w-72 flex-col justify-between border-r border-slate-200 bg-white px-6 py-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:flex">
-                <div>
-                    {/* Brand */}
-                    <div className="mb-8 flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                            <MonitorSmartphone className="h-6 w-6" />
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                                JK TechStore
-                            </h2>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                                Panneau d’administration
-                            </p>
-                        </div>
+    const isActiveRoute = (item) => {
+        if (item.activeRoutes && item.activeRoutes.length > 0) {
+            return item.activeRoutes.some((routeName) =>
+                route().current(routeName)
+            );
+        }
+
+        return route().current(item.route);
+    };
+
+    const MenuItem = ({ item, mobile = false }) => {
+        const Icon = item.icon;
+        const active = isActiveRoute(item);
+
+        return (
+            <Link
+                href={route(item.route)}
+                onClick={mobile ? () => setMobileOpen(false) : undefined}
+                className={`group relative flex items-center justify-between overflow-hidden rounded-2xl px-3 py-3.5 text-sm font-medium transition-all duration-200 ${
+                    active
+                        ? "bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 text-white shadow-lg shadow-cyan-500/20"
+                        : "text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:text-white"
+                }`}
+            >
+                <div className="flex min-w-0 items-center gap-3">
+                    <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${
+                            active
+                                ? "bg-white/15 text-white"
+                                : "bg-slate-100 text-slate-600 group-hover:bg-white dark:bg-slate-800 dark:text-slate-300 dark:group-hover:bg-slate-700"
+                        }`}
+                    >
+                        <Icon className="h-5 w-5" />
                     </div>
 
-                    {/* Navigation */}
-                    <nav className="space-y-2">
-                        {menu.map((item, index) => {
-                            const Icon = item.icon;
-                            const active = route().current(item.route);
+                    <span className="truncate">{item.name}</span>
+                </div>
 
-                            return (
-                                <Link
-                                    key={index}
-                                    href={route(item.route)}
-                                    className={`group flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                                        active
-                                            ? "bg-cyan-600 text-white shadow-lg"
-                                            : "text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-cyan-300"
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <Icon className="h-5 w-5" />
-                                        <span>{item.name}</span>
-                                    </div>
+                <ChevronRight
+                    className={`h-4 w-4 shrink-0 transition-all duration-200 ${
+                        active
+                            ? "translate-x-0 opacity-100"
+                            : "translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                    }`}
+                />
+            </Link>
+        );
+    };
 
-                                    <ChevronRight
-                                        className={`h-4 w-4 transition ${
-                                            active
-                                                ? "opacity-100"
-                                                : "opacity-0 group-hover:opacity-100"
-                                        }`}
-                                    />
-                                </Link>
-                            );
-                        })}
-                    </nav>
-
-                    {/* Small info card */}
-                    <div className="mt-8 rounded-3xl bg-gradient-to-br from-cyan-700 to-slate-900 p-5 text-white shadow-lg">
-                        <div className="flex items-start gap-3">
-                            <div className="rounded-2xl bg-white/10 p-3">
-                                <ShieldCheck className="h-5 w-5" />
+    return (
+        <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-950">
+            {/* Desktop Sidebar */}
+            <aside className="hidden h-screen w-72 shrink-0 border-r border-slate-200/80 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 lg:flex lg:flex-col">
+                <div className="flex h-full flex-col">
+                    {/* Brand / Top */}
+                    <div className="border-b border-slate-200/80 px-6 py-6 dark:border-slate-800">
+                        <div className="flex items-center gap-3">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20">
+                                <MonitorSmartphone className="h-6 w-6" />
                             </div>
-                            <div>
-                                <h3 className="font-semibold">
-                                    Gestion sécurisée
-                                </h3>
-                                <p className="mt-1 text-sm text-cyan-100">
-                                    Surveillez vos opérations commerciales dans un espace administrateur moderne.
+
+                            <div className="min-w-0">
+                                <h2 className="truncate text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
+                                    JK TechStore
+                                </h2>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
+                                    Panneau d’administration
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Bottom profile */}
-                <div className="mt-8 border-t border-slate-200 pt-5 dark:border-slate-800">
-                    <div className="mb-4">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                            {user.name}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Compte connecté
-                        </p>
+                    {/* Scrollable sidebar body */}
+                    <div className="flex-1 overflow-y-auto px-4 py-5">
+                        <div className="mb-4 px-2">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                                Navigation
+                            </p>
+                        </div>
+
+                        <nav className="space-y-2">
+                            {menu.map((item, index) => (
+                                <MenuItem key={index} item={item} />
+                            ))}
+                        </nav>
                     </div>
 
-                    <div className="space-y-2">
-                        <Link
-                            href={route("profile.edit")}
-                            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-                        >
-                            <User className="h-4 w-4" />
-                            Profil
-                        </Link>
+                    {/* Bottom fixed area */}
+                    <div className="border-t border-slate-200/80 p-4 dark:border-slate-800">
+                        <div className="space-y-2">
+                            <Link
+                                href={route("profile.edit")}
+                                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                            >
+                                <User className="h-4 w-4" />
+                                Profil
+                            </Link>
 
-                        <Link
-                            href={route("logout")}
-                            method="post"
-                            as="button"
-                            className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:hover:bg-red-900/20"
-                        >
-                            <LogOut className="h-4 w-4" />
-                            Déconnexion
-                        </Link>
+                            <Link
+                                href={route("logout")}
+                                method="post"
+                                as="button"
+                                className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:hover:bg-red-900/20"
+                            >
+                                <LogOut className="h-4 w-4" />
+                                Déconnexion
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -139,24 +178,26 @@ export default function VerticalLayout({
             {mobileOpen && (
                 <div
                     onClick={() => setMobileOpen(false)}
-                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+                    className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden"
                 />
             )}
 
             {/* Mobile Sidebar */}
             <aside
-                className={`fixed right-0 top-0 z-50 flex h-full w-80 max-w-[85%] flex-col justify-between bg-white px-5 py-6 shadow-2xl transition-transform duration-300 dark:bg-slate-900 md:hidden ${
-                    mobileOpen ? "translate-x-0" : "translate-x-full"
+                className={`fixed left-0 top-0 z-50 flex h-screen w-80 max-w-[86%] flex-col bg-white/95 shadow-2xl backdrop-blur-xl transition-transform duration-300 dark:bg-slate-900/95 lg:hidden ${
+                    mobileOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                <div>
-                    <div className="mb-6 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
+                {/* Mobile top */}
+                <div className="border-b border-slate-200/80 px-5 py-5 dark:border-slate-800">
+                    <div className="flex items-center justify-between gap-3">
+                        <div className="flex min-w-0 items-center gap-3">
+                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg">
                                 <MonitorSmartphone className="h-5 w-5" />
                             </div>
-                            <div>
-                                <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+
+                            <div className="min-w-0">
+                                <h2 className="truncate text-lg font-bold text-slate-900 dark:text-white">
                                     Menu Admin
                                 </h2>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -172,41 +213,25 @@ export default function VerticalLayout({
                             <X className="h-5 w-5" />
                         </button>
                     </div>
-
-                    <nav className="space-y-2">
-                        {menu.map((item, index) => {
-                            const Icon = item.icon;
-                            const active = route().current(item.route);
-
-                            return (
-                                <Link
-                                    key={index}
-                                    href={route(item.route)}
-                                    onClick={() => setMobileOpen(false)}
-                                    className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                                        active
-                                            ? "bg-cyan-600 text-white shadow-lg"
-                                            : "text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-cyan-300"
-                                    }`}
-                                >
-                                    <Icon className="h-5 w-5" />
-                                    <span>{item.name}</span>
-                                </Link>
-                            );
-                        })}
-                    </nav>
                 </div>
 
-                <div className="border-t border-slate-200 pt-5 dark:border-slate-800">
-                    <div className="mb-4">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                            {user.name}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Compte connecté
+                {/* Mobile scroll body */}
+                <div className="flex-1 overflow-y-auto px-4 py-5">
+                    <div className="mb-4 px-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                            Navigation
                         </p>
                     </div>
 
+                    <nav className="space-y-2">
+                        {menu.map((item, index) => (
+                            <MenuItem key={index} item={item} mobile />
+                        ))}
+                    </nav>
+                </div>
+
+                {/* Mobile bottom */}
+                <div className="border-t border-slate-200/80 p-4 dark:border-slate-800">
                     <div className="space-y-2">
                         <Link
                             href={route("profile.edit")}
@@ -230,11 +255,9 @@ export default function VerticalLayout({
                 </div>
             </aside>
 
-            {/* Content */}
-            <div className="flex-1">
-                <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-                    {children}
-                </div>
+            {/* Main area */}
+            <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+                {children}
             </div>
         </div>
     );

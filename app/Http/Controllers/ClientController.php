@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use Inertia\Inertia; // importation package Inertia
 
 class ClientController extends Controller
-{// pour la fonction apropos
+{
+    public function index()
+    {
+        return Inertia::render('Admin/Clients/Index');
+    }
+
     public function apropos()
     {
         return Inertia::render('Apropos');
     }
     
-// pour la fonction contact
     public function contact()
     {
 
