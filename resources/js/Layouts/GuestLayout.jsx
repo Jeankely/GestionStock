@@ -8,6 +8,7 @@ import {
     Menu,
     X,
     MonitorSmartphone,
+    ShoppingBag,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -16,17 +17,16 @@ export default function GuestLayout({ children }) {
 
     const navItems = [
         { label: 'Accueil', href: route('home'), icon: House },
+        { label: 'Produits', href: route('shop.index'), icon: ShoppingBag },
         { label: 'À propos', href: route('about'), icon: Info },
         { label: 'Contact', href: route('contact'), icon: Phone },
     ];
 
     return (
         <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-            {/* HEADER */}
             <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-md shadow-sm dark:border-slate-800 dark:bg-slate-950/85">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-20 items-center justify-between">
-                        {/* Logo + Brand */}
                         <Link
                             href="/"
                             className="group flex items-center gap-3 sm:gap-4"
@@ -37,11 +37,9 @@ export default function GuestLayout({ children }) {
 
                             <div className="leading-tight">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                                        <h1 className="text-4xl font-extrabold text-black tracking-wide drop-shadow-lg">
-                                            JK TechStore
-                                        </h1>
-                                    </span>
+                                    <h1 className="text-4xl font-extrabold text-black tracking-wide drop-shadow-lg dark:text-white">
+                                        JK TechStore
+                                    </h1>
                                     <MonitorSmartphone className="hidden sm:block h-5 w-5 text-cyan-600 dark:text-cyan-400" />
                                 </div>
                                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
@@ -50,10 +48,10 @@ export default function GuestLayout({ children }) {
                             </div>
                         </Link>
 
-                        {/* Desktop nav */}
                         <nav className="hidden md:flex items-center gap-2">
                             {navItems.map((item, index) => {
                                 const Icon = item.icon;
+
                                 return (
                                     <Link
                                         key={index}
@@ -67,7 +65,6 @@ export default function GuestLayout({ children }) {
                             })}
                         </nav>
 
-                        {/* Mobile menu button */}
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -81,12 +78,12 @@ export default function GuestLayout({ children }) {
                         </button>
                     </div>
 
-                    {/* Mobile nav */}
                     {mobileMenuOpen && (
                         <div className="md:hidden pb-4">
                             <div className="mt-2 space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900">
                                 {navItems.map((item, index) => {
                                     const Icon = item.icon;
+
                                     return (
                                         <Link
                                             key={index}
@@ -105,12 +102,10 @@ export default function GuestLayout({ children }) {
                 </div>
             </header>
 
-            {/* PAGE CONTENT */}
             <main className="flex-1">
                 {children}
             </main>
 
-            {/* FOOTER */}
             <Footer />
         </div>
     );

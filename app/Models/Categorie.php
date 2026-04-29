@@ -3,14 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Produit; //importation modele active (leh table jiab managn lien table categorie )
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
 
 class Categorie extends Model
 {
-    protected $fillable = ['nom_categorie']; // appelation attribut av @table vers model
+    use HasFactory, SoftDeletes;
 
-    public function produits()
+    protected $table = 'categories';
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'icon',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function products()
     {
-        return $this->hasMany(Produit::class); //Cela veut dire que Un Categorie peut contenir plusieurs Produit
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

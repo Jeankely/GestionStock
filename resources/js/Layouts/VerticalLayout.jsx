@@ -11,8 +11,7 @@ import {
     X,
     MonitorSmartphone,
     ChevronRight,
-    ShieldCheck,
-    Sparkles,
+    CreditCard,
 } from "lucide-react";
 
 export default function VerticalLayout({
@@ -47,6 +46,12 @@ export default function VerticalLayout({
             route: "sales.index",
             activeRoutes: ["sales.*"],
             icon: ShoppingCart,
+        },
+        {
+            name: "Paiements",
+            route: "payments.index",
+            activeRoutes: ["payments.*"],
+            icon: CreditCard,
         },
         {
             name: "Clients",
@@ -113,10 +118,8 @@ export default function VerticalLayout({
 
     return (
         <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-950">
-            {/* Desktop Sidebar */}
             <aside className="hidden h-screen w-72 shrink-0 border-r border-slate-200/80 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 lg:flex lg:flex-col">
                 <div className="flex h-full flex-col">
-                    {/* Brand / Top */}
                     <div className="border-b border-slate-200/80 px-6 py-6 dark:border-slate-800">
                         <div className="flex items-center gap-3">
                             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20">
@@ -134,7 +137,6 @@ export default function VerticalLayout({
                         </div>
                     </div>
 
-                    {/* Scrollable sidebar body */}
                     <div className="flex-1 overflow-y-auto px-4 py-5">
                         <div className="mb-4 px-2">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
@@ -149,7 +151,6 @@ export default function VerticalLayout({
                         </nav>
                     </div>
 
-                    {/* Bottom fixed area */}
                     <div className="border-t border-slate-200/80 p-4 dark:border-slate-800">
                         <div className="space-y-2">
                             <Link
@@ -174,7 +175,6 @@ export default function VerticalLayout({
                 </div>
             </aside>
 
-            {/* Mobile overlay */}
             {mobileOpen && (
                 <div
                     onClick={() => setMobileOpen(false)}
@@ -182,13 +182,11 @@ export default function VerticalLayout({
                 />
             )}
 
-            {/* Mobile Sidebar */}
             <aside
                 className={`fixed left-0 top-0 z-50 flex h-screen w-80 max-w-[86%] flex-col bg-white/95 shadow-2xl backdrop-blur-xl transition-transform duration-300 dark:bg-slate-900/95 lg:hidden ${
                     mobileOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                {/* Mobile top */}
                 <div className="border-b border-slate-200/80 px-5 py-5 dark:border-slate-800">
                     <div className="flex items-center justify-between gap-3">
                         <div className="flex min-w-0 items-center gap-3">
@@ -207,6 +205,7 @@ export default function VerticalLayout({
                         </div>
 
                         <button
+                            type="button"
                             onClick={() => setMobileOpen(false)}
                             className="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                         >
@@ -215,7 +214,6 @@ export default function VerticalLayout({
                     </div>
                 </div>
 
-                {/* Mobile scroll body */}
                 <div className="flex-1 overflow-y-auto px-4 py-5">
                     <div className="mb-4 px-2">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
@@ -230,7 +228,6 @@ export default function VerticalLayout({
                     </nav>
                 </div>
 
-                {/* Mobile bottom */}
                 <div className="border-t border-slate-200/80 p-4 dark:border-slate-800">
                     <div className="space-y-2">
                         <Link
@@ -255,7 +252,6 @@ export default function VerticalLayout({
                 </div>
             </aside>
 
-            {/* Main area */}
             <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                 {children}
             </div>
