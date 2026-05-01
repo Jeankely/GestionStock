@@ -75,9 +75,8 @@ class ProductController extends Controller
         $data = $request->validated();
 
         $data['reference'] = $this->generateReference();
-        $data['slug'] = Str::slug($data['name']);
-
-        $data['status'] = $this->resolveProductStatus(
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
+        $data['status'] = $this->getProductStatus(
             (int) $data['stock_quantity'],
             (int) $data['alert_quantity']
         );
@@ -86,7 +85,7 @@ class ProductController extends Controller
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        Product::create($data);
+        Product::query()->create($data);
 
         return redirect()
             ->route('products.index')
@@ -118,9 +117,8 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        $data['slug'] = Str::slug($data['name']);
-
-        $data['status'] = $this->resolveProductStatus(
+        $data['slug'] = $this->generateUniqueSlug($data['name'], $product->id);
+        $data['status'] = $this->getProductStatus(
             (int) $data['stock_quantity'],
             (int) $data['alert_quantity']
         );
@@ -169,7 +167,40 @@ class ProductController extends Controller
             ->get(['id', 'name', 'icon']);
     }
 
-    private function resolveProductStatus(int $stockQuantity, int $alertQuantity): string
+    private function generateReference(): string
+    {
+        $lastId = Product::withTrashed()->max('id') ?? 0;
+
+        return 'PRD-' . str_pad($lastId + 1, 5, '0', STR_PAD_LEFT);
+    }
+
+    private function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $baseSlug = Str::slug($name);
+
+        if ($baseSlug === '') {
+            $baseSlug = 'produit';
+        }
+
+        $slug = $baseSlug;
+        $counter = 2;
+
+        while (
+            Product::withTrashed()
+                ->where('slug', $slug)
+                ->when($ignoreId, function ($query) use ($ignoreId) {
+                    $query->where('id', '!=', $ignoreId);
+                })
+                ->exists()
+        ) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    private function getProductStatus(int $stockQuantity, int $alertQuantity): string
     {
         if ($stockQuantity <= 0) {
             return 'rupture';
@@ -180,12 +211,5 @@ class ProductController extends Controller
         }
 
         return 'disponible';
-    }
-
-    private function generateReference(): string
-    {
-        $lastId = Product::withTrashed()->max('id') ?? 0;
-
-        return 'PRD-' . str_pad($lastId + 1, 5, '0', STR_PAD_LEFT);
     }
 }

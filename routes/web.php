@@ -9,6 +9,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\PublicShopController;
 use App\Http\Controllers\SalePaymentController;
+use App\Http\Controllers\LivreurController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/sales/{sale}/confirm', [SaleController::class, 'confirm'])->name('sales.confirm');
     Route::post('/sales/{sale}/cancel', [SaleController::class, 'cancel'])->name('sales.cancel');
     Route::delete('/sales/{sale}', [SaleController::class, 'destroy'])->name('sales.destroy');
+    Route::post('/sales/{sale}/assign-delivery', [SaleController::class, 'assignDelivery'])->name('sales.assign-delivery');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
@@ -67,6 +69,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/sales/{sale}/payments/create', [SalePaymentController::class, 'create'])->name('payments.create');
     Route::post('/sales/{sale}/payments', [SalePaymentController::class, 'store'])->name('payments.store');
     Route::delete('/payments/{payment}', [SalePaymentController::class, 'destroy'])->name('payments.destroy');
+    
+    // Livreurs
+    Route::get('/livreurs', [LivreurController::class, 'index'])->name('livreurs.index');
+    Route::get('/livreurs/create', [LivreurController::class, 'create'])->name('livreurs.create');
+    Route::post('/livreurs', [LivreurController::class, 'store'])->name('livreurs.store');
+    Route::get('/livreurs/{livreur}/edit', [LivreurController::class, 'edit'])->name('livreurs.edit');
+    Route::put('/livreurs/{livreur}', [LivreurController::class, 'update'])->name('livreurs.update');
+    Route::delete('/livreurs/{livreur}', [LivreurController::class, 'destroy'])->name('livreurs.destroy');
 });
 
 Route::middleware('auth')->group(function () {

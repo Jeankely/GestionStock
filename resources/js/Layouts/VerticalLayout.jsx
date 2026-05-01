@@ -12,6 +12,7 @@ import {
     MonitorSmartphone,
     ChevronRight,
     CreditCard,
+    Truck,
 } from "lucide-react";
 
 export default function VerticalLayout({
@@ -52,6 +53,12 @@ export default function VerticalLayout({
             route: "payments.index",
             activeRoutes: ["payments.*"],
             icon: CreditCard,
+        },
+        {
+            name: "Livreurs",
+            route: "livreurs.index",
+            activeRoutes: ["livreurs.*"],
+            icon: Truck,
         },
         {
             name: "Clients",

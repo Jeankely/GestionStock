@@ -6,13 +6,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use App\Models\Sale;
 use App\Models\StockMovement;
+use App\Models\Delivery;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -56,5 +58,20 @@ class User extends Authenticatable
     public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function deliveries()
+    {
+        return $this->hasMany(Delivery::class, 'livreur_id');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isLivreur(): bool
+    {
+        return $this->role === 'livreur';
     }
 }

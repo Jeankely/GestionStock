@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\SaleItem;
 use App\Models\StockMovement;
 use App\Models\SalePayment;
+use App\Models\Delivery;
 
 class Sale extends Model
 {
@@ -81,5 +82,10 @@ class Sale extends Model
                 ? 'paye'
                 : ($this->paid_amount > 0 ? 'partiel' : 'non_paye'),
         ]);
+    }
+
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class);
     }
 }

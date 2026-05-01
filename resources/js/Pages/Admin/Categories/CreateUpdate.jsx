@@ -1,4 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import Checkbox from "@/Components/Checkbox";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     ArrowLeft,
@@ -35,9 +40,28 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
         }
     };
 
+    const inputClass = (hasError = false) =>
+        `h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+            hasError
+                ? "border-red-400"
+                : "border-slate-200 dark:border-slate-700"
+        }`;
+
+    const selectClass =
+        "h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30";
+
+    const textareaClass = (hasError = false) =>
+        `w-full resize-none rounded-2xl border bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+            hasError
+                ? "border-red-400"
+                : "border-slate-200 dark:border-slate-700"
+        }`;
+
     return (
         <AuthenticatedLayout>
-            <Head title={isEdit ? "Modifier une catégorie" : "Nouvelle catégorie"} />
+            <Head
+                title={isEdit ? "Modifier une catégorie" : "Nouvelle catégorie"}
+            />
 
             <div className="mx-auto max-w-5xl space-y-6">
                 <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
@@ -62,9 +86,9 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                     </h1>
 
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Organisez vos produits informatiques par familles :
-                                        ordinateurs, imprimantes, composants, stockage,
-                                        réseaux ou sécurité.
+                                        Organisez vos produits informatiques par
+                                        familles : ordinateurs, imprimantes,
+                                        composants, stockage, réseaux ou sécurité.
                                     </p>
                                 </div>
                             </div>
@@ -100,102 +124,127 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
 
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                             <div className="lg:col-span-2">
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Nom de la catégorie
-                                </label>
-
-                                <input
-                                    type="text"
-                                    value={data.name}
-                                    onChange={(e) => setData("name", e.target.value)}
-                                    placeholder="Ex : Ordinateurs"
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
-                                        errors.name
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                <InputLabel
+                                    htmlFor="name"
+                                    value="Nom de la catégorie"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
                                 />
 
-                                {errors.name && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.name}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Icône
-                                </label>
-
-                                <select
-                                    value={data.icon}
-                                    onChange={(e) => setData("icon", e.target.value)}
-                                    className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30"
-                                >
-                                    <option value="FolderTree">Catégorie</option>
-                                    <option value="Monitor">Ordinateurs</option>
-                                    <option value="Printer">Imprimantes</option>
-                                    <option value="Cpu">Composants</option>
-                                    <option value="HardDrive">Stockage</option>
-                                    <option value="Wifi">Réseaux</option>
-                                    <option value="ShieldCheck">Sécurité</option>
-                                </select>
-
-                                {errors.icon && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.icon}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Statut
-                                </label>
-
-                                <select
-                                    value={data.is_active ? "1" : "0"}
+                                <TextInput
+                                    id="name"
+                                    type="text"
+                                    value={data.name}
                                     onChange={(e) =>
-                                        setData("is_active", e.target.value === "1")
+                                        setData("name", e.target.value)
                                     }
-                                    className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30"
+                                    placeholder="Ex : Ordinateurs"
+                                    isFocused
+                                    className={inputClass(errors.name)}
+                                />
+
+                                <InputError
+                                    message={errors.name}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div>
+                                <InputLabel
+                                    htmlFor="icon"
+                                    value="Icône"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
+
+                                <select
+                                    id="icon"
+                                    value={data.icon}
+                                    onChange={(e) =>
+                                        setData("icon", e.target.value)
+                                    }
+                                    className={selectClass}
                                 >
-                                    <option value="1">Actif</option>
-                                    <option value="0">Inactif</option>
+                                    <option value="FolderTree">
+                                        Catégorie
+                                    </option>
+                                    <option value="Monitor">
+                                        Ordinateurs
+                                    </option>
+                                    <option value="Printer">
+                                        Imprimantes
+                                    </option>
+                                    <option value="Cpu">Composants</option>
+                                    <option value="HardDrive">
+                                        Stockage
+                                    </option>
+                                    <option value="Wifi">Réseaux</option>
+                                    <option value="ShieldCheck">
+                                        Sécurité
+                                    </option>
                                 </select>
 
-                                {errors.is_active && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.is_active}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.icon}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div>
+                                <InputLabel
+                                    value="Statut"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
+
+                                <label className="flex h-12 cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900">
+                                    <Checkbox
+                                        checked={data.is_active}
+                                        onChange={(e) =>
+                                            setData(
+                                                "is_active",
+                                                e.target.checked
+                                            )
+                                        }
+                                    />
+
+                                    <span className="font-medium">
+                                        {data.is_active
+                                            ? "Catégorie active"
+                                            : "Catégorie inactive"}
+                                    </span>
+                                </label>
+
+                                <InputError
+                                    message={errors.is_active}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div className="lg:col-span-2">
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Description
-                                </label>
+                                <InputLabel
+                                    htmlFor="description"
+                                    value="Description"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
                                 <textarea
+                                    id="description"
                                     value={data.description}
                                     onChange={(e) =>
-                                        setData("description", e.target.value)
+                                        setData(
+                                            "description",
+                                            e.target.value
+                                        )
                                     }
                                     rows="5"
                                     placeholder="Ex : PC portables, PC de bureau et accessoires liés..."
-                                    className={`w-full resize-none rounded-2xl border bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+                                    className={textareaClass(
                                         errors.description
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    )}
                                 />
 
-                                {errors.description && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.description}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.description}
+                                    className="mt-2"
+                                />
                             </div>
                         </div>
                     </section>
@@ -213,7 +262,8 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                     </h3>
 
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Vérifiez les informations avant d’enregistrer.
+                                        Vérifiez les informations avant
+                                        d’enregistrer.
                                     </p>
                                 </div>
                             </div>
@@ -227,10 +277,10 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                     Annuler
                                 </Link>
 
-                                <button
+                                <PrimaryButton
                                     type="submit"
                                     disabled={processing}
-                                    className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-6 text-sm font-semibold normal-case tracking-normal text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gradient-to-r dark:from-cyan-600 dark:to-blue-600 dark:text-white"
                                 >
                                     {processing ? (
                                         <>
@@ -240,10 +290,12 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                     ) : (
                                         <>
                                             <Save className="h-4 w-4" />
-                                            {isEdit ? "Modifier" : "Enregistrer"}
+                                            {isEdit
+                                                ? "Modifier"
+                                                : "Enregistrer"}
                                         </>
                                     )}
-                                </button>
+                                </PrimaryButton>
                             </div>
                         </div>
                     </section>

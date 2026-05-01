@@ -1,4 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     ArrowLeft,
@@ -127,6 +131,27 @@ export default function CreateUpdate({
         }
     };
 
+    const inputClass = (hasError = false) =>
+        `h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+            hasError
+                ? "border-red-400"
+                : "border-slate-200 dark:border-slate-700"
+        }`;
+
+    const selectClass = (hasError = false) =>
+        `h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+            hasError
+                ? "border-red-400"
+                : "border-slate-200 dark:border-slate-700"
+        }`;
+
+    const textareaClass = (hasError = false) =>
+        `w-full resize-none rounded-2xl border bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+            hasError
+                ? "border-red-400"
+                : "border-slate-200 dark:border-slate-700"
+        }`;
+
     return (
         <AuthenticatedLayout>
             <Head title={isEdit ? "Modifier un produit" : "Nouveau produit"} />
@@ -154,8 +179,9 @@ export default function CreateUpdate({
                                     </h1>
 
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Ajoutez vos matériels informatiques avec leur
-                                        catégorie, prix, stock, seuil d’alerte et image.
+                                        Ajoutez vos matériels informatiques avec
+                                        leur catégorie, prix, stock, seuil
+                                        d’alerte et image.
                                     </p>
                                 </div>
                             </div>
@@ -184,27 +210,27 @@ export default function CreateUpdate({
                                 </h2>
 
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    La référence sera générée automatiquement après l’enregistrement.
+                                    La référence sera générée automatiquement
+                                    après l’enregistrement.
                                 </p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Catégorie
-                                </label>
+                                <InputLabel
+                                    htmlFor="category_id"
+                                    value="Catégorie"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
                                 <select
+                                    id="category_id"
                                     value={data.category_id}
                                     onChange={(e) =>
                                         setData("category_id", e.target.value)
                                     }
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
-                                        errors.category_id
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    className={selectClass(errors.category_id)}
                                 >
                                     <option value="">
                                         Sélectionner une catégorie
@@ -220,149 +246,156 @@ export default function CreateUpdate({
                                     ))}
                                 </select>
 
-                                {errors.category_id && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.category_id}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.category_id}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Nom du produit
-                                </label>
+                                <InputLabel
+                                    htmlFor="name"
+                                    value="Nom du produit"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
-                                <input
+                                <TextInput
+                                    id="name"
                                     type="text"
                                     value={data.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
                                     }
                                     placeholder="Ex : HP EliteBook 840"
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
-                                        errors.name
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    isFocused
+                                    className={inputClass(errors.name)}
                                 />
 
-                                {errors.name && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.name}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.name}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Prix d’achat
-                                </label>
+                                <InputLabel
+                                    htmlFor="purchase_price"
+                                    value="Prix d’achat"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
-                                <input
+                                <TextInput
+                                    id="purchase_price"
                                     type="number"
                                     min="0"
                                     value={data.purchase_price}
                                     onChange={(e) =>
-                                        setData("purchase_price", e.target.value)
+                                        setData(
+                                            "purchase_price",
+                                            e.target.value
+                                        )
                                     }
                                     placeholder="Ex : 1800000"
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+                                    className={inputClass(
                                         errors.purchase_price
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    )}
                                 />
 
-                                {errors.purchase_price && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.purchase_price}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.purchase_price}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Prix de vente
-                                </label>
+                                <InputLabel
+                                    htmlFor="selling_price"
+                                    value="Prix de vente"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
-                                <input
+                                <TextInput
+                                    id="selling_price"
                                     type="number"
                                     min="0"
                                     value={data.selling_price}
                                     onChange={(e) =>
-                                        setData("selling_price", e.target.value)
+                                        setData(
+                                            "selling_price",
+                                            e.target.value
+                                        )
                                     }
                                     placeholder="Ex : 2100000"
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
-                                        errors.selling_price
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    className={inputClass(errors.selling_price)}
                                 />
 
-                                {errors.selling_price && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.selling_price}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.selling_price}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Stock
-                                </label>
+                                <InputLabel
+                                    htmlFor="stock_quantity"
+                                    value="Stock"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
-                                <input
+                                <TextInput
+                                    id="stock_quantity"
                                     type="number"
                                     min="0"
                                     value={data.stock_quantity}
                                     onChange={(e) =>
-                                        setData("stock_quantity", e.target.value)
+                                        setData(
+                                            "stock_quantity",
+                                            e.target.value
+                                        )
                                     }
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+                                    className={inputClass(
                                         errors.stock_quantity
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    )}
                                 />
 
-                                {errors.stock_quantity && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.stock_quantity}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.stock_quantity}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Stock minimum avant alerte
-                                </label>
+                                <InputLabel
+                                    htmlFor="alert_quantity"
+                                    value="Stock minimum avant alerte"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
-                                <input
+                                <TextInput
+                                    id="alert_quantity"
                                     type="number"
                                     min="0"
                                     value={data.alert_quantity}
                                     onChange={(e) =>
-                                        setData("alert_quantity", e.target.value)
+                                        setData(
+                                            "alert_quantity",
+                                            e.target.value
+                                        )
                                     }
-                                    className={`h-12 w-full rounded-2xl border bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
-                                        errors.alert_quantity
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    className={inputClass(errors.alert_quantity)}
                                 />
 
-                                {errors.alert_quantity && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.alert_quantity}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.alert_quantity}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div>
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Statut automatique
-                                </label>
+                                <InputLabel
+                                    value="Statut automatique"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
                                 <div
                                     className={`flex h-12 w-full items-center rounded-2xl border px-4 text-sm font-bold ${
@@ -370,24 +403,26 @@ export default function CreateUpdate({
                                         statusClasses.disponible
                                     }`}
                                 >
-                                    {statusLabels[automaticStatus] || "Disponible"}
+                                    {statusLabels[automaticStatus] ||
+                                        "Disponible"}
                                 </div>
 
                                 <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                                    Le statut est calculé automatiquement selon le stock disponible.
+                                    Le statut est calculé automatiquement selon
+                                    le stock disponible.
                                 </p>
 
-                                {errors.status && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.status}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.status}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div className="lg:col-span-2">
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Image du produit
-                                </label>
+                                <InputLabel
+                                    value="Image du produit"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
                                 <label
                                     className={`group relative flex min-h-72 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed bg-slate-50 transition hover:border-cyan-500 hover:bg-cyan-50/40 dark:bg-slate-950 dark:hover:bg-cyan-950/20 ${
@@ -448,8 +483,8 @@ export default function CreateUpdate({
                                             </p>
 
                                             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                                                Formats acceptés : JPG, PNG, WEBP.
-                                                Taille maximale : 2 Mo.
+                                                Formats acceptés : JPG, PNG,
+                                                WEBP. Taille maximale : 2 Mo.
                                             </p>
                                         </div>
                                     )}
@@ -461,37 +496,39 @@ export default function CreateUpdate({
                                     </p>
                                 )}
 
-                                {errors.image && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.image}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.image}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div className="lg:col-span-2">
-                                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Description
-                                </label>
+                                <InputLabel
+                                    htmlFor="description"
+                                    value="Description"
+                                    className="mb-2 font-semibold text-slate-700 dark:text-slate-200"
+                                />
 
                                 <textarea
+                                    id="description"
                                     value={data.description}
                                     onChange={(e) =>
-                                        setData("description", e.target.value)
+                                        setData(
+                                            "description",
+                                            e.target.value
+                                        )
                                     }
                                     rows="5"
                                     placeholder="Description du produit..."
-                                    className={`w-full resize-none rounded-2xl border bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 dark:focus:ring-cyan-900/30 ${
+                                    className={textareaClass(
                                         errors.description
-                                            ? "border-red-400"
-                                            : "border-slate-200 dark:border-slate-700"
-                                    }`}
+                                    )}
                                 />
 
-                                {errors.description && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.description}
-                                    </p>
-                                )}
+                                <InputError
+                                    message={errors.description}
+                                    className="mt-2"
+                                />
                             </div>
                         </div>
                     </section>
@@ -509,7 +546,8 @@ export default function CreateUpdate({
                                     </h3>
 
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Vérifiez les informations avant d’enregistrer.
+                                        Vérifiez les informations avant
+                                        d’enregistrer.
                                     </p>
                                 </div>
                             </div>
@@ -523,10 +561,10 @@ export default function CreateUpdate({
                                     Annuler
                                 </Link>
 
-                                <button
+                                <PrimaryButton
                                     type="submit"
                                     disabled={processing}
-                                    className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-6 text-sm font-semibold normal-case tracking-normal text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gradient-to-r dark:from-cyan-600 dark:to-blue-600 dark:text-white"
                                 >
                                     {processing ? (
                                         <>
@@ -541,7 +579,7 @@ export default function CreateUpdate({
                                                 : "Enregistrer"}
                                         </>
                                     )}
-                                </button>
+                                </PrimaryButton>
                             </div>
                         </div>
                     </section>

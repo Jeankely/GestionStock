@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignDeliveryRequest;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Client;
+use App\Models\Delivery;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SalePayment;
 use App\Models\StockMovement;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,9 +26,10 @@ class SaleController extends Controller
     {
         $sales = Sale::query()
             ->with([
-                'client:id,name,phone,email',
+                'client:id,name,phone,email,address',
                 'user:id,name',
                 'items.product:id,name,reference',
+                'delivery.livreur:id,name,email,phone',
             ])
             ->latest()
             ->get()
@@ -37,6 +41,7 @@ class SaleController extends Controller
                     'client' => $sale->client?->name ?? 'Client inconnu',
                     'client_phone' => $sale->client?->phone,
                     'client_email' => $sale->client?->email,
+                    'client_address' => $sale->client?->address,
                     'seller' => $sale->user?->name ?? 'Utilisateur',
                     'sub_total' => (float) $sale->sub_total,
                     'discount' => (float) $sale->discount,
@@ -49,6 +54,7 @@ class SaleController extends Controller
                     'payment_method' => $sale->payment_method,
                     'notes' => $sale->notes,
                     'items_count' => $sale->items->count(),
+
                     'items' => $sale->items->map(function ($item) {
                         return [
                             'id' => $item->id,
@@ -60,11 +66,34 @@ class SaleController extends Controller
                             'total_price' => (float) $item->total_price,
                         ];
                     }),
+
+                    'delivery' => $sale->delivery ? [
+                        'id' => $sale->delivery->id,
+                        'status' => $sale->delivery->status,
+                        'scheduled_date' => $sale->delivery->scheduled_date?->format('Y-m-d'),
+                        'scheduled_date_display' => $sale->delivery->scheduled_date?->format('d/m/Y'),
+                        'delivered_at' => $sale->delivery->delivered_at?->format('d/m/Y H:i'),
+                        'delivery_address' => $sale->delivery->delivery_address,
+                        'delivery_phone' => $sale->delivery->delivery_phone,
+                        'notes' => $sale->delivery->notes,
+                        'livreur' => $sale->delivery->livreur ? [
+                            'id' => $sale->delivery->livreur->id,
+                            'name' => $sale->delivery->livreur->name,
+                            'email' => $sale->delivery->livreur->email,
+                            'phone' => $sale->delivery->livreur->phone,
+                        ] : null,
+                    ] : null,
                 ];
             });
 
         return Inertia::render('Admin/Sales/Index', [
             'sales' => $sales,
+
+            'livreurs' => User::role('livreur')
+                ->where('is_active', true)
+                ->orderBy('name')
+                ->get(['id', 'name', 'email', 'phone']),
+
             'stats' => [
                 'total' => Sale::query()->count(),
 
@@ -187,11 +216,9 @@ class SaleController extends Controller
                     'discount' => $globalDiscount,
                     'tax' => $tax,
                     'total_amount' => $totalAmount,
-
                     'paid_amount' => 0,
                     'remaining_amount' => $totalAmount,
                     'payment_status' => 'non_paye',
-
                     'status' => 'en_attente',
                     'payment_method' => 'espece',
                     'notes' => $data['notes'] ?? null,
@@ -396,12 +423,62 @@ class SaleController extends Controller
         }
     }
 
+    public function assignDelivery(AssignDeliveryRequest $request, Sale $sale): RedirectResponse
+    {
+        $data = $request->validated();
+
+        try {
+            DB::transaction(function () use ($data, $sale) {
+                $sale = Sale::query()
+                    ->with(['client', 'delivery'])
+                    ->lockForUpdate()
+                    ->findOrFail($sale->id);
+
+                if ($sale->status !== 'en_attente') {
+                    throw new \Exception('Vous pouvez assigner un livreur uniquement à une vente en attente.');
+                }
+
+                $livreur = User::query()->findOrFail($data['livreur_id']);
+
+                if (! $livreur->hasRole('livreur')) {
+                    throw new \Exception('L’utilisateur sélectionné n’est pas un livreur.');
+                }
+
+                if (! $livreur->is_active) {
+                    throw new \Exception('Ce livreur est inactif.');
+                }
+
+                Delivery::query()->updateOrCreate(
+                    [
+                        'sale_id' => $sale->id,
+                    ],
+                    [
+                        'livreur_id' => $livreur->id,
+                        'delivery_address' => $data['delivery_address'] ?? $sale->client?->address,
+                        'delivery_phone' => $data['delivery_phone'] ?? $sale->client?->phone,
+                        'scheduled_date' => $data['scheduled_date'] ?? null,
+                        'status' => 'assignee',
+                        'notes' => $data['notes'] ?? null,
+                    ]
+                );
+            });
+
+            return redirect()
+                ->route('sales.index')
+                ->with('success', 'Livraison assignée au livreur avec succès.');
+        } catch (\Throwable $e) {
+            return redirect()
+                ->route('sales.index')
+                ->with('error', $e->getMessage());
+        }
+    }
+
     public function confirm(Sale $sale): RedirectResponse
     {
         try {
             DB::transaction(function () use ($sale) {
                 $sale = Sale::query()
-                    ->with('items')
+                    ->with(['items', 'delivery'])
                     ->lockForUpdate()
                     ->findOrFail($sale->id);
 
@@ -422,7 +499,7 @@ class SaleController extends Controller
                     ->where('type', 'sortie')
                     ->exists();
 
-                if (!$stockAlreadyMoved) {
+                if (! $stockAlreadyMoved) {
                     $this->reserveStockForExistingSale($sale);
                 }
 
@@ -430,7 +507,7 @@ class SaleController extends Controller
                     ->where('sale_id', $sale->id)
                     ->exists();
 
-                if (!$paymentAlreadyExists) {
+                if (! $paymentAlreadyExists) {
                     SalePayment::query()->create([
                         'sale_id' => $sale->id,
                         'user_id' => Auth::id(),
@@ -439,6 +516,13 @@ class SaleController extends Controller
                         'amount' => (float) $sale->total_amount,
                         'method' => 'espece',
                         'notes' => 'Paiement en espèce après livraison de la vente ' . $sale->reference,
+                    ]);
+                }
+
+                if ($sale->delivery) {
+                    $sale->delivery->update([
+                        'status' => 'livree',
+                        'delivered_at' => now(),
                     ]);
                 }
 
@@ -466,7 +550,7 @@ class SaleController extends Controller
         try {
             DB::transaction(function () use ($sale) {
                 $sale = Sale::query()
-                    ->with('items')
+                    ->with(['items', 'delivery'])
                     ->lockForUpdate()
                     ->findOrFail($sale->id);
 
@@ -483,6 +567,12 @@ class SaleController extends Controller
                 }
 
                 $this->restoreReservedStock($sale, 'annulation_vente');
+
+                if ($sale->delivery) {
+                    $sale->delivery->update([
+                        'status' => 'annulee',
+                    ]);
+                }
 
                 SalePayment::query()
                     ->where('sale_id', $sale->id)
@@ -511,16 +601,20 @@ class SaleController extends Controller
         try {
             DB::transaction(function () use ($sale) {
                 $sale = Sale::query()
-                    ->with('items')
+                    ->with(['items', 'delivery'])
                     ->lockForUpdate()
                     ->findOrFail($sale->id);
 
-                if (!in_array($sale->status, ['en_attente', 'annulee'], true)) {
+                if (! in_array($sale->status, ['en_attente', 'annulee'], true)) {
                     throw new \Exception('Impossible de supprimer une vente déjà payée, livrée ou validée.');
                 }
 
                 if ($sale->status === 'en_attente') {
                     $this->restoreReservedStock($sale, 'suppression_vente');
+                }
+
+                if ($sale->delivery) {
+                    $sale->delivery->delete();
                 }
 
                 $sale->items()->delete();
@@ -554,7 +648,7 @@ class SaleController extends Controller
                 ->lockForUpdate()
                 ->find($item->product_id);
 
-            if (!$product) {
+            if (! $product) {
                 continue;
             }
 

@@ -14,7 +14,8 @@ class UpdateProductRequest extends FormRequest
 
     public function rules(): array
     {
-        $productId = $this->route('product')?->id;
+        $product = $this->route('product');
+        $productId = $product?->id;
 
         return [
             'category_id' => [
@@ -27,7 +28,9 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'string',
                 'max:150',
-                Rule::unique('products', 'name')->ignore($productId)->whereNull('deleted_at'),
+                Rule::unique('products', 'name')
+                    ->ignore($productId)
+                    ->whereNull('deleted_at'),
             ],
 
             'description' => [

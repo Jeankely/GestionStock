@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import AssignDeliveryModal from "./Partials/AssignDeliveryModal";
 import {
     ShoppingCart,
     Search,
@@ -15,6 +16,7 @@ import {
     CreditCard,
     Package,
     XCircle,
+    Truck,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -88,15 +90,26 @@ const canDeleteSale = (status) => {
     return status === "en_attente" || status === "annulee";
 };
 
-export default function Index({ sales = [], stats = {} }) {
+export default function Index({ sales = [], livreurs = [], stats = {} }) {
     const { flash } = usePage().props;
     const [search, setSearch] = useState("");
+
+    const [assignForm, setAssignForm] = useState({
+        sale_id: null,
+        livreur_id: "",
+        scheduled_date: "",
+        delivery_address: "",
+        delivery_phone: "",
+        notes: "",
+    });
 
     const filteredSales = useMemo(() => {
         return sales.filter((sale) => {
             const text = `${sale.reference || ""} ${sale.client || ""} ${
                 sale.status || ""
-            } ${sale.payment_status || ""} ${sale.payment_method || ""}`.toLowerCase();
+            } ${sale.payment_status || ""} ${sale.payment_method || ""} ${
+                sale.delivery?.livreur?.name || ""
+            }`.toLowerCase();
 
             return text.includes(search.toLowerCase());
         });
@@ -163,6 +176,57 @@ export default function Index({ sales = [], stats = {} }) {
         }
     };
 
+    const openAssignDelivery = (sale) => {
+        setAssignForm({
+            sale_id: sale.id,
+            livreur_id: sale.delivery?.livreur?.id || "",
+            scheduled_date: sale.delivery?.scheduled_date || "",
+            delivery_address:
+                sale.delivery?.delivery_address || sale.client_address || "",
+            delivery_phone:
+                sale.delivery?.delivery_phone || sale.client_phone || "",
+            notes: sale.delivery?.notes || "",
+        });
+    };
+
+    const closeAssignDelivery = () => {
+        setAssignForm({
+            sale_id: null,
+            livreur_id: "",
+            scheduled_date: "",
+            delivery_address: "",
+            delivery_phone: "",
+            notes: "",
+        });
+    };
+
+    const submitAssignDelivery = (e) => {
+        e.preventDefault();
+
+        router.post(
+            route("sales.assign-delivery", assignForm.sale_id),
+            {
+                livreur_id: assignForm.livreur_id,
+                scheduled_date: assignForm.scheduled_date,
+                delivery_address: assignForm.delivery_address,
+                delivery_phone: assignForm.delivery_phone,
+                notes: assignForm.notes,
+            },
+            {
+                preserveScroll: true,
+                preserveState: false,
+                onSuccess: () => {
+                    closeAssignDelivery();
+
+                    router.visit(route("sales.index"), {
+                        preserveScroll: true,
+                        replace: true,
+                    });
+                },
+            }
+        );
+    };
+
     return (
         <AuthenticatedLayout>
             <Head title="Ventes" />
@@ -223,7 +287,7 @@ export default function Index({ sales = [], stats = {} }) {
                                     </h1>
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
                                         Consultez les ventes passées par les clients,
-                                        validez les ventes en attente ou annulez-les si nécessaire.
+                                        assignez les livreurs, validez les livraisons ou annulez si nécessaire.
                                     </p>
                                 </div>
                             </div>
@@ -413,6 +477,62 @@ export default function Index({ sales = [], stats = {} }) {
                                     </div>
                                 </div>
 
+                                <div className="mt-5 rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
+                                    <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                        <Truck className="h-4 w-4" />
+                                        Livraison
+                                    </div>
+
+                                    {sale.delivery ? (
+                                        <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                                            <p>
+                                                Livreur :{" "}
+                                                <span className="font-semibold text-slate-800 dark:text-slate-100">
+                                                    {sale.delivery.livreur?.name ||
+                                                        "Non assigné"}
+                                                </span>
+                                            </p>
+
+                                            <p>
+                                                Statut :{" "}
+                                                <span className="font-semibold text-slate-800 dark:text-slate-100">
+                                                    {sale.delivery.status}
+                                                </span>
+                                            </p>
+
+                                            <p>
+                                                Date prévue :{" "}
+                                                {sale.delivery
+                                                    .scheduled_date_display ||
+                                                    "Non définie"}
+                                            </p>
+
+                                            <p>
+                                                Téléphone livraison :{" "}
+                                                {sale.delivery.delivery_phone ||
+                                                    "Aucun"}
+                                            </p>
+
+                                            <p>
+                                                Adresse livraison :{" "}
+                                                {sale.delivery.delivery_address ||
+                                                    "Aucune"}
+                                            </p>
+
+                                            {sale.delivery.delivered_at && (
+                                                <p>
+                                                    Livrée le :{" "}
+                                                    {sale.delivery.delivered_at}
+                                                </p>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                                            Aucun livreur assigné à cette vente.
+                                        </p>
+                                    )}
+                                </div>
+
                                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
                                     {sale.status === "en_attente" && (
                                         <>
@@ -426,6 +546,17 @@ export default function Index({ sales = [], stats = {} }) {
                                                 <Pencil className="h-4 w-4" />
                                                 Modifier
                                             </Link>
+
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    openAssignDelivery(sale)
+                                                }
+                                                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-cyan-50 px-5 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 dark:bg-cyan-900/20 dark:text-cyan-300 dark:hover:bg-cyan-900/30"
+                                            >
+                                                <Truck className="h-4 w-4" />
+                                                Assigner livreur
+                                            </button>
 
                                             <button
                                                 type="button"
@@ -490,6 +621,15 @@ export default function Index({ sales = [], stats = {} }) {
                     </section>
                 )}
             </div>
+
+            <AssignDeliveryModal
+                show={Boolean(assignForm.sale_id)}
+                assignForm={assignForm}
+                setAssignForm={setAssignForm}
+                livreurs={livreurs}
+                onClose={closeAssignDelivery}
+                onSubmit={submitAssignDelivery}
+            />
         </AuthenticatedLayout>
     );
 }

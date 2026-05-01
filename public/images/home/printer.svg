@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <defs>
+    <linearGradient id="bgPrinter" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" rx="42" fill="url(#bgPrinter)"/>
+  <circle cx="650" cy="95" r="120" fill="#fff" opacity="0.09"/>
+  <circle cx="110" cy="430" r="120" fill="#67e8f9" opacity="0.14"/>
+  <rect x="245" y="75" width="310" height="165" rx="18" fill="#f8fafc"/>
+  <rect x="275" y="110" width="250" height="18" rx="9" fill="#94a3b8"/>
+  <rect x="275" y="150" width="190" height="16" rx="8" fill="#cbd5e1"/>
+  <rect x="165" y="220" width="470" height="190" rx="34" fill="#e2e8f0"/>
+  <rect x="215" y="310" width="370" height="135" rx="18" fill="#f8fafc"/>
+  <rect x="255" y="342" width="220" height="16" rx="8" fill="#94a3b8"/>
+  <rect x="255" y="378" width="285" height="16" rx="8" fill="#cbd5e1"/>
+  <rect x="255" y="414" width="180" height="16" rx="8" fill="#cbd5e1"/>
+  <circle cx="565" cy="267" r="16" fill="#22c55e"/>
+  <circle cx="520" cy="267" r="16" fill="#0f172a" opacity="0.55"/>
+  <path d="M210 245h380" stroke="#94a3b8" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+</svg>
