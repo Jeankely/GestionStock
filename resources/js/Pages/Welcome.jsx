@@ -127,6 +127,7 @@ export default function Home() {
         <GuestLayout>
             <Head title="Accueil" />
 
+            {/* HERO SECTION */}
             <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-950 text-white">
                 <div className="absolute inset-0 opacity-25">
                     <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-white blur-3xl" />
