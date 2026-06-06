@@ -2,12 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
-class ProfileUpdateRequest extends FormRequest
+class StoreAdminRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return auth()->check() && auth()->user()->hasRole('admin');
+    }
+
     public function rules(): array
     {
         return [
@@ -19,10 +23,9 @@ class ProfileUpdateRequest extends FormRequest
 
             'email' => [
                 'required',
-                'string',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user()->id),
+                'unique:users,email',
             ],
 
             'phone' => [
@@ -36,6 +39,12 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+
+            'password' => [
+                'required',
+                'confirmed',
+                Password::defaults(),
+            ],
         ];
     }
 
@@ -45,9 +54,9 @@ class ProfileUpdateRequest extends FormRequest
             'name.required' => 'Le nom est obligatoire.',
             'email.required' => 'L’email est obligatoire.',
             'email.email' => 'L’email est invalide.',
-            'email.unique' => 'Cet email est déjà utilisé.',
-            'phone.max' => 'Le téléphone ne doit pas dépasser 40 caractères.',
-            'address.max' => 'L’adresse ne doit pas dépasser 255 caractères.',
+            'email.unique' => 'Cet email existe déjà.',
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
         ];
     }
 }

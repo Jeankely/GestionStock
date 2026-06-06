@@ -51,9 +51,15 @@ const deliveryStatusClass = (status) => {
     return "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300";
 };
 
-export default function Index({ livreurs = [], stats = {} }) {
+export default function Index({
+    livreurs = [],
+    stats = {},
+    currentUser = null,
+}) {
     const { flash } = usePage().props;
     const [search, setSearch] = useState("");
+
+    const isAdmin = currentUser?.is_admin === true;
 
     const filteredLivreurs = useMemo(() => {
         return livreurs.filter((livreur) => {
@@ -66,6 +72,10 @@ export default function Index({ livreurs = [], stats = {} }) {
     }, [livreurs, search]);
 
     const deleteLivreur = (livreur) => {
+        if (!isAdmin) {
+            return;
+        }
+
         if (
             confirm(
                 `Supprimer le livreur ${livreur.name} ? S’il a déjà des livraisons, il sera seulement désactivé.`
@@ -139,22 +149,27 @@ export default function Index({ livreurs = [], stats = {} }) {
                                     <p className="text-sm font-medium text-cyan-100">
                                         Gestion des livraisons
                                     </p>
+
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         Livreurs
                                     </h1>
+
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Gérez les comptes livreurs et consultez leurs informations de livraison.
+                                        Consultez la liste des livreurs et leurs
+                                        informations de livraison.
                                     </p>
                                 </div>
                             </div>
 
-                            <Link
-                                href={route("livreurs.create")}
-                                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
-                            >
-                                <Plus className="h-4 w-4" />
-                                Nouveau livreur
-                            </Link>
+                            {isAdmin && (
+                                <Link
+                                    href={route("livreurs.create")}
+                                    className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
+                                >
+                                    <Plus className="h-4 w-4" />
+                                    Nouveau livreur
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </section>
@@ -209,6 +224,7 @@ export default function Index({ livreurs = [], stats = {} }) {
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                                 Liste des livreurs
                             </h2>
+
                             <p className="text-sm text-slate-500 dark:text-slate-400">
                                 {filteredLivreurs.length} livreur(s) trouvé(s)
                             </p>
@@ -216,6 +232,7 @@ export default function Index({ livreurs = [], stats = {} }) {
 
                         <div className="relative w-full lg:w-80">
                             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+
                             <input
                                 type="text"
                                 value={search}
@@ -262,12 +279,14 @@ export default function Index({ livreurs = [], stats = {} }) {
 
                                             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                                                 <Phone className="h-4 w-4" />
-                                                {livreur.phone || "Aucun téléphone"}
+                                                {livreur.phone ||
+                                                    "Aucun téléphone"}
                                             </div>
 
                                             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                                                 <MapPin className="h-4 w-4" />
-                                                {livreur.address || "Aucune adresse"}
+                                                {livreur.address ||
+                                                    "Aucune adresse"}
                                             </div>
                                         </div>
                                     </div>
@@ -276,13 +295,16 @@ export default function Index({ livreurs = [], stats = {} }) {
                                         <p className="text-xs font-semibold text-cyan-700 dark:text-cyan-300">
                                             Livraisons
                                         </p>
+
                                         <p className="mt-1 text-xl font-bold text-cyan-800 dark:text-cyan-200">
                                             {livreur.deliveries_count}
                                         </p>
+
                                         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                             En attente :{" "}
                                             {livreur.pending_deliveries_count}
                                         </p>
+
                                         <p className="text-xs text-slate-500 dark:text-slate-400">
                                             Livrées :{" "}
                                             {livreur.delivered_deliveries_count}
@@ -336,6 +358,7 @@ export default function Index({ livreurs = [], stats = {} }) {
                                                                                 ?.client
                                                                         }
                                                                     </p>
+
                                                                     <p>
                                                                         Téléphone :{" "}
                                                                         {delivery.delivery_phone ||
@@ -344,11 +367,13 @@ export default function Index({ livreurs = [], stats = {} }) {
                                                                                 ?.client_phone ||
                                                                             "Aucun"}
                                                                     </p>
+
                                                                     <p>
                                                                         Adresse :{" "}
                                                                         {delivery.delivery_address ||
                                                                             "Aucune adresse"}
                                                                     </p>
+
                                                                     <p>
                                                                         Total vente :{" "}
                                                                         {formatMoney(
@@ -385,41 +410,55 @@ export default function Index({ livreurs = [], stats = {} }) {
                                     )}
                                 </div>
 
-                                <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
-                                    <Link
-                                        href={route(
-                                            "livreurs.edit",
-                                            livreur.id
-                                        )}
-                                        className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                                    >
-                                        <Pencil className="h-4 w-4" />
-                                        Modifier
-                                    </Link>
+                                {isAdmin && (
+                                    <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
+                                        <Link
+                                            href={route(
+                                                "livreurs.edit",
+                                                livreur.id
+                                            )}
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                        >
+                                            <Pencil className="h-4 w-4" />
+                                            Modifier
+                                        </Link>
 
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            deleteLivreur(livreur)
-                                        }
-                                        className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-red-50 px-5 text-sm font-semibold text-red-600 transition hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/30"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                        Supprimer
-                                    </button>
-                                </div>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                deleteLivreur(livreur)
+                                            }
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-red-50 px-5 text-sm font-semibold text-red-600 transition hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/30"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                )}
                             </article>
                         ))}
                     </section>
                 ) : (
                     <section className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center dark:border-slate-700 dark:bg-slate-900">
                         <Truck className="mx-auto h-10 w-10 text-slate-400" />
+
                         <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">
                             Aucun livreur trouvé
                         </h3>
+
                         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                            Ajoutez un livreur pour commencer à gérer les livraisons.
+                            Aucun livreur n’est encore enregistré.
                         </p>
+
+                        {isAdmin && (
+                            <Link
+                                href={route("livreurs.create")}
+                                className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95"
+                            >
+                                <Plus className="h-4 w-4" />
+                                Créer un livreur
+                            </Link>
+                        )}
                     </section>
                 )}
             </div>

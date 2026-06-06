@@ -13,6 +13,7 @@ import {
     ChevronRight,
     CreditCard,
     Truck,
+    ShieldCheck,
 } from "lucide-react";
 
 export default function VerticalLayout({
@@ -22,6 +23,7 @@ export default function VerticalLayout({
 }) {
     const { props } = usePage();
     const user = props.auth.user;
+    const isAdmin = user?.is_admin === true;
 
     const menu = [
         {
@@ -60,6 +62,16 @@ export default function VerticalLayout({
             activeRoutes: ["livreurs.*"],
             icon: Truck,
         },
+        ...(isAdmin
+            ? [
+                {
+                    name: "Administrateurs",
+                    route: "administrateurs.index",
+                    activeRoutes: ["administrateurs.*"],
+                    icon: ShieldCheck,
+                },
+            ]
+            : []),
         {
             name: "Clients",
             route: "clients.index",
@@ -128,8 +140,11 @@ export default function VerticalLayout({
             <aside className="hidden h-screen w-72 shrink-0 border-r border-slate-200/80 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 lg:flex lg:flex-col">
                 <div className="flex h-full flex-col">
                     <div className="border-b border-slate-200/80 px-6 py-6 dark:border-slate-800">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20">
+                        <Link
+                            href={route("home")}
+                            className="group flex items-center gap-3"
+                        >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 transition group-hover:scale-105">
                                 <MonitorSmartphone className="h-6 w-6" />
                             </div>
 
@@ -141,7 +156,7 @@ export default function VerticalLayout({
                                     Panneau d’administration
                                 </p>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
                     <div className="flex-1 overflow-y-auto px-4 py-5">
@@ -196,8 +211,12 @@ export default function VerticalLayout({
             >
                 <div className="border-b border-slate-200/80 px-5 py-5 dark:border-slate-800">
                     <div className="flex items-center justify-between gap-3">
-                        <div className="flex min-w-0 items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg">
+                        <Link
+                            href={route("home")}
+                            onClick={() => setMobileOpen(false)}
+                            className="group flex min-w-0 items-center gap-3"
+                        >
+                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg transition group-hover:scale-105">
                                 <MonitorSmartphone className="h-5 w-5" />
                             </div>
 
@@ -209,7 +228,7 @@ export default function VerticalLayout({
                                     Navigation rapide
                                 </p>
                             </div>
-                        </div>
+                        </Link>
 
                         <button
                             type="button"

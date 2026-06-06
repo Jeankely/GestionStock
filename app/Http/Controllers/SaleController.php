@@ -24,13 +24,26 @@ class SaleController extends Controller
 {
     public function index(): Response
     {
-        $sales = Sale::query()
+        $currentUser = Auth::user();
+
+        $isAdmin = $currentUser?->hasRole('admin') ?? false;
+        $isLivreur = $currentUser?->hasRole('livreur') ?? false;
+
+        $salesQuery = Sale::query()
             ->with([
                 'client:id,name,phone,email,address',
                 'user:id,name',
                 'items.product:id,name,reference',
                 'delivery.livreur:id,name,email,phone',
-            ])
+            ]);
+
+        if (! $isAdmin && $isLivreur) {
+            $salesQuery->whereHas('delivery', function ($query) use ($currentUser) {
+                $query->where('livreur_id', $currentUser->id);
+            });
+        }
+
+        $sales = $salesQuery
             ->latest()
             ->get()
             ->map(function ($sale) {
@@ -86,30 +99,48 @@ class SaleController extends Controller
                 ];
             });
 
+        $statsQuery = Sale::query();
+
+        if (! $isAdmin && $isLivreur) {
+            $statsQuery->whereHas('delivery', function ($query) use ($currentUser) {
+                $query->where('livreur_id', $currentUser->id);
+            });
+        }
+
         return Inertia::render('Admin/Sales/Index', [
             'sales' => $sales,
 
-            'livreurs' => User::role('livreur')
-                ->where('is_active', true)
-                ->orderBy('name')
-                ->get(['id', 'name', 'email', 'phone']),
+            'livreurs' => $isAdmin
+                ? User::role('livreur')
+                    ->where('is_active', true)
+                    ->orderBy('name')
+                    ->get(['id', 'name', 'email', 'phone'])
+                : [],
+
+            'currentUser' => [
+                'id' => $currentUser?->id,
+                'name' => $currentUser?->name,
+                'roles' => $currentUser?->getRoleNames()->values() ?? [],
+                'is_admin' => $isAdmin,
+                'is_livreur' => $isLivreur,
+            ],
 
             'stats' => [
-                'total' => Sale::query()->count(),
+                'total' => (clone $statsQuery)->count(),
 
-                'pending' => Sale::query()
+                'pending' => (clone $statsQuery)
                     ->where('status', 'en_attente')
                     ->count(),
 
-                'confirmed' => Sale::query()
+                'confirmed' => (clone $statsQuery)
                     ->whereIn('status', ['payee', 'livree'])
                     ->count(),
 
-                'cancelled' => Sale::query()
+                'cancelled' => (clone $statsQuery)
                     ->where('status', 'annulee')
                     ->count(),
 
-                'turnover' => Sale::query()
+                'turnover' => (clone $statsQuery)
                     ->whereIn('status', ['payee', 'livree'])
                     ->sum('total_amount'),
             ],
@@ -429,6 +460,12 @@ class SaleController extends Controller
 
         try {
             DB::transaction(function () use ($data, $sale) {
+                $user = Auth::user();
+
+                if (! $user || ! $user->hasRole('admin')) {
+                    throw new \Exception('Seul l’admin peut assigner une livraison à un livreur.');
+                }
+
                 $sale = Sale::query()
                     ->with(['client', 'delivery'])
                     ->lockForUpdate()
@@ -477,17 +514,29 @@ class SaleController extends Controller
     {
         try {
             DB::transaction(function () use ($sale) {
+                $user = Auth::user();
+
                 $sale = Sale::query()
                     ->with(['items', 'delivery'])
                     ->lockForUpdate()
                     ->findOrFail($sale->id);
 
-                if (in_array($sale->status, ['payee', 'livree'], true)) {
-                    throw new \Exception('Cette vente est déjà payée/livrée.');
+                if (! $user) {
+                    throw new \Exception('Utilisateur non connecté.');
                 }
 
-                if ($sale->status === 'annulee') {
-                    throw new \Exception('Une vente annulée ne peut pas être payée.');
+                $isAdmin = $user->hasRole('admin');
+
+                $isAssignedLivreur = $user->hasRole('livreur')
+                    && $sale->delivery
+                    && (int) $sale->delivery->livreur_id === (int) $user->id;
+
+                if (! $isAdmin && ! $isAssignedLivreur) {
+                    throw new \Exception('Vous n’êtes pas autorisé à livrer et payer cette vente.');
+                }
+
+                if ($sale->status !== 'en_attente') {
+                    throw new \Exception('Cette vente ne peut plus être livrée.');
                 }
 
                 if ($sale->items->isEmpty()) {

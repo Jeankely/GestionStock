@@ -10,6 +10,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\PublicShopController;
 use App\Http\Controllers\SalePaymentController;
 use App\Http\Controllers\LivreurController;
+use App\Http\Controllers\AdministrateurController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +25,12 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //Administrateurs
+    Route::get('/administrateurs', [AdministrateurController::class, 'index'])->name('administrateurs.index');
+    Route::get('/administrateurs/create', [AdministrateurController::class, 'create'])->name('administrateurs.create');
+    Route::post('/administrateurs', [AdministrateurController::class, 'store'])->name('administrateurs.store');
 
     // Catégories
     Route::get('/categories', [CategorieController::class, 'index'])->name('categories.index');

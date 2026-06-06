@@ -6,14 +6,28 @@ use App\Http\Requests\StoreLivreurRequest;
 use App\Http\Requests\UpdateLivreurRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
 class LivreurController extends Controller
 {
+    private function ensureAdmin(): ?RedirectResponse
+    {
+        if (! Auth::check() || ! Auth::user()->hasRole('admin')) {
+            return redirect()
+                ->route('livreurs.index')
+                ->with('error', 'Accès refusé. Seul l’admin peut gérer les livreurs.');
+        }
+
+        return null;
+    }
+
     public function index(): Response
     {
+        $user = Auth::user();
+
         $livreurs = User::role('livreur')
             ->with([
                 'deliveries' => function ($query) {
@@ -25,6 +39,7 @@ class LivreurController extends Controller
             ])
             ->withCount([
                 'deliveries',
+
                 'deliveries as pending_deliveries_count' => function ($query) {
                     $query->whereIn('status', [
                         'en_attente',
@@ -32,6 +47,7 @@ class LivreurController extends Controller
                         'en_cours',
                     ]);
                 },
+
                 'deliveries as delivered_deliveries_count' => function ($query) {
                     $query->where('status', 'livree');
                 },
@@ -71,6 +87,7 @@ class LivreurController extends Controller
                                 'client' => $delivery->sale?->client?->name ?? 'Client inconnu',
                                 'client_phone' => $delivery->sale?->client?->phone,
                                 'client_email' => $delivery->sale?->client?->email,
+                                'client_address' => $delivery->sale?->client?->address,
                             ],
                         ];
                     }),
@@ -79,6 +96,16 @@ class LivreurController extends Controller
 
         return Inertia::render('Admin/Livreurs/Index', [
             'livreurs' => $livreurs,
+
+            'currentUser' => [
+                'id' => $user?->id,
+                'name' => $user?->name,
+                'email' => $user?->email,
+                'is_admin' => $user?->hasRole('admin') ?? false,
+                'is_livreur' => $user?->hasRole('livreur') ?? false,
+                'roles' => $user?->getRoleNames()->values() ?? [],
+            ],
+
             'stats' => [
                 'total' => User::role('livreur')->count(),
 
@@ -93,8 +120,12 @@ class LivreurController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(): Response|RedirectResponse
     {
+        if ($redirect = $this->ensureAdmin()) {
+            return $redirect;
+        }
+
         return Inertia::render('Admin/Livreurs/CreateUpdate', [
             'livreur' => null,
             'mode' => 'create',
@@ -103,6 +134,10 @@ class LivreurController extends Controller
 
     public function store(StoreLivreurRequest $request): RedirectResponse
     {
+        if ($redirect = $this->ensureAdmin()) {
+            return $redirect;
+        }
+
         $data = $request->validated();
 
         Role::firstOrCreate([
@@ -115,7 +150,7 @@ class LivreurController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
-            'is_active' => $data['is_active'],
+            'is_active' => $data['is_active'] ?? true,
             'password' => $data['password'],
         ]);
 
@@ -128,6 +163,10 @@ class LivreurController extends Controller
 
     public function edit(User $livreur): Response|RedirectResponse
     {
+        if ($redirect = $this->ensureAdmin()) {
+            return $redirect;
+        }
+
         if (! $livreur->hasRole('livreur')) {
             return redirect()
                 ->route('livreurs.index')
@@ -149,6 +188,10 @@ class LivreurController extends Controller
 
     public function update(UpdateLivreurRequest $request, User $livreur): RedirectResponse
     {
+        if ($redirect = $this->ensureAdmin()) {
+            return $redirect;
+        }
+
         if (! $livreur->hasRole('livreur')) {
             return redirect()
                 ->route('livreurs.index')
@@ -162,10 +205,10 @@ class LivreurController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
-            'is_active' => $data['is_active'],
+            'is_active' => $data['is_active'] ?? true,
         ];
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $payload['password'] = $data['password'];
         }
 
@@ -182,6 +225,10 @@ class LivreurController extends Controller
 
     public function destroy(User $livreur): RedirectResponse
     {
+        if ($redirect = $this->ensureAdmin()) {
+            return $redirect;
+        }
+
         if (! $livreur->hasRole('livreur')) {
             return redirect()
                 ->route('livreurs.index')

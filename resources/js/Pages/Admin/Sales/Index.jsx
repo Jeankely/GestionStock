@@ -82,17 +82,17 @@ const paymentMethodLabel = (method) => {
     return labels[method] || method;
 };
 
-const canCancelSale = (status) => {
-    return status === "en_attente";
-};
-
-const canDeleteSale = (status) => {
-    return status === "en_attente" || status === "annulee";
-};
-
-export default function Index({ sales = [], livreurs = [], stats = {} }) {
-    const { flash } = usePage().props;
+export default function Index({
+    sales = [],
+    livreurs = [],
+    currentUser = null,
+    stats = {},
+}) {
+    const { flash, errors } = usePage().props;
     const [search, setSearch] = useState("");
+
+    const isAdmin = currentUser?.is_admin === true;
+    const isLivreur = currentUser?.is_livreur === true;
 
     const [assignForm, setAssignForm] = useState({
         sale_id: null,
@@ -102,6 +102,44 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
         delivery_phone: "",
         notes: "",
     });
+
+    const isAssignedLivreur = (sale) => {
+        return (
+            isLivreur &&
+            Number(sale.delivery?.livreur?.id) === Number(currentUser?.id)
+        );
+    };
+
+    const canEditSale = (sale) => {
+        return isAdmin && sale.status === "en_attente";
+    };
+
+    const canAssignDelivery = (sale) => {
+        return isAdmin && sale.status === "en_attente";
+    };
+
+    const canConfirmSale = (sale) => {
+        if (sale.status !== "en_attente") {
+            return false;
+        }
+
+        if (isAdmin) {
+            return true;
+        }
+
+        return isAssignedLivreur(sale);
+    };
+
+    const canCancelSale = (sale) => {
+        return isAdmin && sale.status === "en_attente";
+    };
+
+    const canDeleteSale = (sale) => {
+        return (
+            isAdmin &&
+            (sale.status === "en_attente" || sale.status === "annulee")
+        );
+    };
 
     const filteredSales = useMemo(() => {
         return sales.filter((sale) => {
@@ -177,6 +215,10 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
     };
 
     const openAssignDelivery = (sale) => {
+        if (!isAdmin) {
+            return;
+        }
+
         setAssignForm({
             sale_id: sale.id,
             livreur_id: sale.delivery?.livreur?.id || "",
@@ -202,6 +244,10 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
 
     const submitAssignDelivery = (e) => {
         e.preventDefault();
+
+        if (!isAdmin) {
+            return;
+        }
 
         router.post(
             route("sales.assign-delivery", assignForm.sale_id),
@@ -282,9 +328,11 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
                                     <p className="text-sm font-medium text-cyan-100">
                                         Module de vente
                                     </p>
+
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         Gestion des ventes
                                     </h1>
+
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
                                         Consultez les ventes passées par les clients,
                                         assignez les livreurs, validez les livraisons ou annulez si nécessaire.
@@ -534,42 +582,41 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
                                 </div>
 
                                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
-                                    {sale.status === "en_attente" && (
-                                        <>
-                                            <Link
-                                                href={route(
-                                                    "sales.edit",
-                                                    sale.id
-                                                )}
-                                                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                                            >
-                                                <Pencil className="h-4 w-4" />
-                                                Modifier
-                                            </Link>
-
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    openAssignDelivery(sale)
-                                                }
-                                                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-cyan-50 px-5 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 dark:bg-cyan-900/20 dark:text-cyan-300 dark:hover:bg-cyan-900/30"
-                                            >
-                                                <Truck className="h-4 w-4" />
-                                                Assigner livreur
-                                            </button>
-
-                                            <button
-                                                type="button"
-                                                onClick={() => confirmSale(sale)}
-                                                className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-emerald-50 px-5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:hover:bg-emerald-900/30"
-                                            >
-                                                <CheckCircle2 className="h-4 w-4" />
-                                                Livrer et payer
-                                            </button>
-                                        </>
+                                    {canEditSale(sale) && (
+                                        <Link
+                                            href={route("sales.edit", sale.id)}
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                        >
+                                            <Pencil className="h-4 w-4" />
+                                            Modifier
+                                        </Link>
                                     )}
 
-                                    {canCancelSale(sale.status) && (
+                                    {canAssignDelivery(sale) && (
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                openAssignDelivery(sale)
+                                            }
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-cyan-50 px-5 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 dark:bg-cyan-900/20 dark:text-cyan-300 dark:hover:bg-cyan-900/30"
+                                        >
+                                            <Truck className="h-4 w-4" />
+                                            Assigner livreur
+                                        </button>
+                                    )}
+
+                                    {canConfirmSale(sale) && (
+                                        <button
+                                            type="button"
+                                            onClick={() => confirmSale(sale)}
+                                            className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-emerald-50 px-5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-300 dark:hover:bg-emerald-900/30"
+                                        >
+                                            <CheckCircle2 className="h-4 w-4" />
+                                            Livrer et payer
+                                        </button>
+                                    )}
+
+                                    {canCancelSale(sale) && (
                                         <button
                                             type="button"
                                             onClick={() => cancelSale(sale)}
@@ -580,7 +627,7 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
                                         </button>
                                     )}
 
-                                    {canDeleteSale(sale.status) && (
+                                    {canDeleteSale(sale) && (
                                         <button
                                             type="button"
                                             onClick={() => deleteSale(sale)}
@@ -622,14 +669,17 @@ export default function Index({ sales = [], livreurs = [], stats = {} }) {
                 )}
             </div>
 
-            <AssignDeliveryModal
-                show={Boolean(assignForm.sale_id)}
-                assignForm={assignForm}
-                setAssignForm={setAssignForm}
-                livreurs={livreurs}
-                onClose={closeAssignDelivery}
-                onSubmit={submitAssignDelivery}
-            />
+            {isAdmin && (
+                <AssignDeliveryModal
+                    show={Boolean(assignForm.sale_id)}
+                    assignForm={assignForm}
+                    setAssignForm={setAssignForm}
+                    livreurs={livreurs}
+                    errors={errors}
+                    onClose={closeAssignDelivery}
+                    onSubmit={submitAssignDelivery}
+                />
+            )}
         </AuthenticatedLayout>
     );
 }
