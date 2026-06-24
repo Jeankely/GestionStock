@@ -12,11 +12,14 @@ use App\Models\Sale;
 use App\Models\SalePayment;
 use App\Models\StockMovement;
 use App\Models\User;
+use App\Mail\SaleReceiptMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -513,7 +516,7 @@ class SaleController extends Controller
     public function confirm(Sale $sale): RedirectResponse
     {
         try {
-            DB::transaction(function () use ($sale) {
+            $saleId = DB::transaction(function () use ($sale) {
                 $user = Auth::user();
 
                 $sale = Sale::query()
@@ -582,11 +585,38 @@ class SaleController extends Controller
                     'payment_method' => 'espece',
                     'status' => 'livree',
                 ]);
+
+                return $sale->id;
             });
 
-            return redirect()
-                ->route('sales.index')
-                ->with('success', 'Livraison validée et vente payée avec succès.');
+            $sale = Sale::query()
+                ->with(['client', 'items.product', 'delivery'])
+                ->findOrFail($saleId);
+
+            if (! $sale->client || empty($sale->client->email)) {
+                return redirect()
+                    ->route('sales.index')
+                    ->with('success', 'Livraison validée et vente payée avec succès. Aucun email client n’est enregistré, donc le reçu n’a pas été envoyé.');
+            }
+
+            try {
+                Mail::to($sale->client->email)->send(new SaleReceiptMail($sale));
+
+                return redirect()
+                    ->route('sales.index')
+                    ->with('success', 'Livraison validée et vente payée avec succès. Le reçu a été envoyé au client par email.');
+            } catch (\Throwable $e) {
+                Log::error('Erreur lors de l’envoi du reçu de vente par email.', [
+                    'sale_id' => $sale->id,
+                    'reference' => $sale->reference,
+                    'client_email' => $sale->client->email,
+                    'error' => $e->getMessage(),
+                ]);
+
+                return redirect()
+                    ->route('sales.index')
+                    ->with('success', 'Livraison validée et vente payée avec succès, mais l’email du reçu n’a pas pu être envoyé.');
+            }
         } catch (\Throwable $e) {
             return redirect()
                 ->route('sales.index')
