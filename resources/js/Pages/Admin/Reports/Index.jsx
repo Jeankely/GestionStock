@@ -13,6 +13,7 @@ import {
     Activity,
     ArrowUpRight,
     ArrowDownRight,
+    Printer,
 } from "lucide-react";
 
 const formatMoney = (amount) => {
@@ -98,9 +99,21 @@ export default function Index({
                                 </div>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 rounded-2xl bg-white/15 px-4 py-3 text-sm font-semibold text-white backdrop-blur">
-                                <CalendarDays className="h-4 w-4" />
-                                Année en cours
+                            <div className="flex flex-wrap items-center gap-3">
+                                <a
+                                    href={route("reports.pdf")}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-cyan-700 shadow-lg transition hover:bg-cyan-50"
+                                >
+                                    <Printer className="h-4 w-4" />
+                                    Imprimer PDF
+                                </a>
+
+                                <div className="inline-flex items-center gap-2 rounded-2xl bg-white/15 px-4 py-3 text-sm font-semibold text-white backdrop-blur">
+                                    <CalendarDays className="h-4 w-4" />
+                                    Année en cours
+                                </div>
                             </div>
                         </div>
                     </div>

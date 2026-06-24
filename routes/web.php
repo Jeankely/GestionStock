@@ -67,7 +67,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/sales/{sale}', [SaleController::class, 'destroy'])->name('sales.destroy');
     Route::post('/sales/{sale}/assign-delivery', [SaleController::class, 'assignDelivery'])->name('sales.assign-delivery');
 
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
+    });
 
     // Paiements
     Route::get('/payments', [SalePaymentController::class, 'index'])->name('payments.index');
