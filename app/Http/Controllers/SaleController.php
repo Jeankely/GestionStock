@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignDeliveryRequest;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
+use App\Mail\SaleReceiptMail;
 use App\Models\Client;
 use App\Models\Delivery;
 use App\Models\Product;
@@ -12,14 +13,14 @@ use App\Models\Sale;
 use App\Models\SalePayment;
 use App\Models\StockMovement;
 use App\Models\User;
-use App\Mail\SaleReceiptMail;
+use App\Notifications\AppNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -130,22 +131,10 @@ class SaleController extends Controller
 
             'stats' => [
                 'total' => (clone $statsQuery)->count(),
-
-                'pending' => (clone $statsQuery)
-                    ->where('status', 'en_attente')
-                    ->count(),
-
-                'confirmed' => (clone $statsQuery)
-                    ->whereIn('status', ['payee', 'livree'])
-                    ->count(),
-
-                'cancelled' => (clone $statsQuery)
-                    ->where('status', 'annulee')
-                    ->count(),
-
-                'turnover' => (clone $statsQuery)
-                    ->whereIn('status', ['payee', 'livree'])
-                    ->sum('total_amount'),
+                'pending' => (clone $statsQuery)->where('status', 'en_attente')->count(),
+                'confirmed' => (clone $statsQuery)->whereIn('status', ['payee', 'livree'])->count(),
+                'cancelled' => (clone $statsQuery)->where('status', 'annulee')->count(),
+                'turnover' => (clone $statsQuery)->whereIn('status', ['payee', 'livree'])->sum('total_amount'),
             ],
         ]);
     }
@@ -175,13 +164,13 @@ class SaleController extends Controller
                         ->lockForUpdate()
                         ->find($item['product_id']);
 
-                    if (!$product) {
+                    if (! $product) {
                         throw ValidationException::withMessages([
                             'items' => 'Un produit sélectionné est introuvable.',
                         ]);
                     }
 
-                    if (!in_array($product->status, ['disponible', 'faible_stock'], true)) {
+                    if (! in_array($product->status, ['disponible', 'faible_stock'], true)) {
                         throw ValidationException::withMessages([
                             'items' => "Le produit {$product->name} n’est pas disponible.",
                         ]);
@@ -351,13 +340,13 @@ class SaleController extends Controller
                         ->lockForUpdate()
                         ->find($item['product_id']);
 
-                    if (!$product) {
+                    if (! $product) {
                         throw ValidationException::withMessages([
                             'items' => 'Un produit sélectionné est introuvable.',
                         ]);
                     }
 
-                    if (!in_array($product->status, ['disponible', 'faible_stock'], true)) {
+                    if (! in_array($product->status, ['disponible', 'faible_stock'], true)) {
                         throw ValidationException::withMessages([
                             'items' => "Le produit {$product->name} n’est pas disponible.",
                         ]);
@@ -462,7 +451,7 @@ class SaleController extends Controller
         $data = $request->validated();
 
         try {
-            DB::transaction(function () use ($data, $sale) {
+            $delivery = DB::transaction(function () use ($data, $sale) {
                 $user = Auth::user();
 
                 if (! $user || ! $user->hasRole('admin')) {
@@ -488,7 +477,7 @@ class SaleController extends Controller
                     throw new \Exception('Ce livreur est inactif.');
                 }
 
-                Delivery::query()->updateOrCreate(
+                $delivery = Delivery::query()->updateOrCreate(
                     [
                         'sale_id' => $sale->id,
                     ],
@@ -501,7 +490,19 @@ class SaleController extends Controller
                         'notes' => $data['notes'] ?? null,
                     ]
                 );
+
+                return $delivery->load(['livreur', 'sale']);
             });
+
+            if ($delivery->livreur) {
+                $delivery->livreur->notify(new AppNotification(
+                    title: 'Nouvelle livraison assignée',
+                    message: 'La vente ' . ($delivery->sale?->reference ?? '') . ' vous a été assignée pour livraison.',
+                    url: route('sales.index'),
+                    type: 'info',
+                    icon: 'Truck'
+                ));
+            }
 
             return redirect()
                 ->route('sales.index')
@@ -592,6 +593,18 @@ class SaleController extends Controller
             $sale = Sale::query()
                 ->with(['client', 'items.product', 'delivery'])
                 ->findOrFail($saleId);
+
+            User::role('admin')
+                ->get()
+                ->each(function ($admin) use ($sale) {
+                    $admin->notify(new AppNotification(
+                        title: 'Vente livrée et payée',
+                        message: 'La vente ' . $sale->reference . ' a été livrée et payée.',
+                        url: route('sales.index'),
+                        type: 'success',
+                        icon: 'Wallet'
+                    ));
+                });
 
             if (! $sale->client || empty($sale->client->email)) {
                 return redirect()

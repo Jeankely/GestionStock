@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSalePaymentRequest;
 use App\Models\Sale;
 use App\Models\SalePayment;
+use App\Models\User;
+use App\Notifications\AppNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -102,7 +104,7 @@ class SalePaymentController extends Controller
         $data = $request->validated();
 
         try {
-            DB::transaction(function () use ($data, $sale) {
+            $sale = DB::transaction(function () use ($data, $sale) {
                 $sale = Sale::query()
                     ->lockForUpdate()
                     ->findOrFail($sale->id);
@@ -137,7 +139,21 @@ class SalePaymentController extends Controller
                 ]);
 
                 $this->recalculateSalePayment($sale);
+
+                return $sale->fresh(['client']);
             });
+
+            User::role('admin')
+                ->get()
+                ->each(function ($admin) use ($sale) {
+                    $admin->notify(new AppNotification(
+                        title: 'Paiement enregistré',
+                        message: 'Un paiement a été enregistré pour la vente ' . $sale->reference . '.',
+                        url: route('payments.index'),
+                        type: 'success',
+                        icon: 'Wallet'
+                    ));
+                });
 
             return redirect()
                 ->route('payments.index')

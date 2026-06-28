@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+class NotificationController extends Controller
+{
+    public function read(Request $request, string $id): RedirectResponse
+    {
+        $notification = $request->user()
+            ->notifications()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $notification->markAsRead();
+
+        $url = $notification->data['url'] ?? null;
+
+        if ($url) {
+            return redirect($url);
+        }
+
+        return back();
+    }
+
+    public function readAll(Request $request): RedirectResponse
+    {
+        $request->user()
+            ->unreadNotifications()
+            ->update([
+                'read_at' => now(),
+            ]);
+
+        return back();
+    }
+
+    public function destroy(Request $request, string $id): RedirectResponse
+    {
+        $notification = $request->user()
+            ->notifications()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $notification->delete();
+
+        return back();
+    }
+}
