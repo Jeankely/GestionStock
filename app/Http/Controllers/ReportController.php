@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -13,6 +14,33 @@ use Inertia\Response;
 class ReportController extends Controller
 {
     public function index(): Response
+    {
+        $data = $this->getReportData();
+
+        return Inertia::render('Admin/Reports/Index', [
+            'reports' => $data['reports'],
+            'monthlyData' => $data['monthlyData'],
+            'summary' => $data['summary'],
+        ]);
+    }
+
+    public function pdf()
+    {
+        $data = $this->getReportData();
+
+        $pdf = Pdf::loadView('pdf.reports', [
+            'reports' => $data['reports'],
+            'monthlyData' => $data['monthlyData'],
+            'summary' => $data['summary'],
+            'currentYear' => now()->year,
+            'currentMonth' => $this->monthName(now()->month),
+            'generatedAt' => now()->format('d/m/Y à H:i'),
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->stream('rapport-commercial-' . now()->format('Y-m-d') . '.pdf');
+    }
+
+    private function getReportData(): array
     {
         $currentYear = now()->year;
         $currentMonth = now()->month;
@@ -72,17 +100,19 @@ class ReportController extends Controller
             ->orderByDesc('total_quantity')
             ->first();
 
+        $lastMonth = now()->subMonth();
+
         $lastMonthTurnover = Sale::query()
             ->whereIn('status', $validSaleStatuses)
-            ->whereYear('sale_date', now()->subMonth()->year)
-            ->whereMonth('sale_date', now()->subMonth()->month)
+            ->whereYear('sale_date', $lastMonth->year)
+            ->whereMonth('sale_date', $lastMonth->month)
             ->sum('total_amount');
 
         $growthRate = $lastMonthTurnover > 0
             ? (($monthlyTurnover - $lastMonthTurnover) / $lastMonthTurnover) * 100
             : 0;
 
-        return Inertia::render('Admin/Reports/Index', [
+        return [
             'reports' => [
                 'monthly_turnover' => (float) $monthlyTurnover,
                 'sold_products_count' => (int) $soldProductsCount,
@@ -97,7 +127,7 @@ class ReportController extends Controller
                 'top_product' => $topProduct?->name ?? 'Aucune donnée',
                 'growth_rate' => round($growthRate, 1),
             ],
-        ]);
+        ];
     }
 
     private function monthName(int $month): string

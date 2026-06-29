@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\StockMovement;
+use App\Models\User;
+use App\Notifications\AppNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -46,7 +48,7 @@ class PublicShopController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data) {
+        $sale = DB::transaction(function () use ($data) {
             $client = $this->findOrCreateClient($data);
 
             $subTotal = 0;
@@ -58,13 +60,13 @@ class PublicShopController extends Controller
                     ->lockForUpdate()
                     ->find($item['product_id']);
 
-                if (!$product) {
+                if (! $product) {
                     throw ValidationException::withMessages([
                         'items' => 'Un produit sélectionné est introuvable.',
                     ]);
                 }
 
-                if (!in_array($product->status, ['disponible', 'faible_stock'], true)) {
+                if (! in_array($product->status, ['disponible', 'faible_stock'], true)) {
                     throw ValidationException::withMessages([
                         'items' => "Le produit {$product->name} n’est pas disponible.",
                     ]);
@@ -129,15 +131,10 @@ class PublicShopController extends Controller
                 'discount' => 0,
                 'tax' => 0,
                 'total_amount' => $subTotal,
-
-                // La commande n’est pas encore payée.
                 'paid_amount' => 0,
                 'remaining_amount' => $subTotal,
                 'payment_status' => 'non_paye',
-
-                // En attente de livraison / validation admin.
                 'status' => 'en_attente',
-
                 'payment_method' => 'espece',
                 'notes' => $data['notes'] ?? null,
             ]);
@@ -153,7 +150,21 @@ class PublicShopController extends Controller
                     'notes' => 'Stock réservé lors de la commande ' . $sale->reference,
                 ]);
             }
+
+            return $sale->load('client');
         });
+
+        User::role('admin')
+            ->get()
+            ->each(function ($admin) use ($sale) {
+                $admin->notify(new AppNotification(
+                    title: 'Nouvelle commande',
+                    message: 'Une nouvelle commande a été passée par ' . ($sale->client?->name ?? 'un client') . '.',
+                    url: route('sales.index'),
+                    type: 'info',
+                    icon: 'ShoppingCart'
+                ));
+            });
 
         return redirect()
             ->route('shop.index')
@@ -164,12 +175,12 @@ class PublicShopController extends Controller
     {
         $client = Client::withTrashed()
             ->where(function ($query) use ($data) {
-                if (!empty($data['email'])) {
+                if (! empty($data['email'])) {
                     $query->where('email', $data['email']);
                 }
 
-                if (!empty($data['phone'])) {
-                    if (!empty($data['email'])) {
+                if (! empty($data['phone'])) {
+                    if (! empty($data['email'])) {
                         $query->orWhere('phone', $data['phone']);
                     } else {
                         $query->where('phone', $data['phone']);

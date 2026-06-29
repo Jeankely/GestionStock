@@ -11,6 +11,7 @@ use App\Http\Controllers\PublicShopController;
 use App\Http\Controllers\SalePaymentController;
 use App\Http\Controllers\LivreurController;
 use App\Http\Controllers\AdministrateurController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -67,7 +68,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/sales/{sale}', [SaleController::class, 'destroy'])->name('sales.destroy');
     Route::post('/sales/{sale}/assign-delivery', [SaleController::class, 'assignDelivery'])->name('sales.assign-delivery');
 
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
+    });
 
     // Paiements
     Route::get('/payments', [SalePaymentController::class, 'index'])->name('payments.index');
@@ -88,6 +92,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])
+        ->name('notifications.read');
+
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
+        ->name('notifications.read-all');
+
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
+        ->name('notifications.destroy');
 });
 
 Route::get('/about', [ClientController::class, 'apropos'])->name('about');

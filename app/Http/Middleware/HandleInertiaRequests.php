@@ -50,6 +50,31 @@ class HandleInertiaRequests extends Middleware
                 ] : null,
             ],
 
+            'notifications' => $user ? [
+                'unread_count' => $user->unreadNotifications()->count(),
+
+                'items' => $user->notifications()
+                    ->latest()
+                    ->limit(10)
+                    ->get()
+                    ->map(function ($notification) {
+                        return [
+                            'id' => $notification->id,
+                            'title' => $notification->data['title'] ?? 'Notification',
+                            'message' => $notification->data['message'] ?? '',
+                            'url' => $notification->data['url'] ?? null,
+                            'type' => $notification->data['type'] ?? 'info',
+                            'icon' => $notification->data['icon'] ?? 'Bell',
+                            'read_at' => $notification->read_at,
+                            'is_read' => ! is_null($notification->read_at),
+                            'created_at' => $notification->created_at?->diffForHumans(),
+                        ];
+                    }),
+            ] : [
+                'unread_count' => 0,
+                'items' => [],
+            ],
+
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),

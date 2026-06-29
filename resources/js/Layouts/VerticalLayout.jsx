@@ -22,12 +22,15 @@ export default function VerticalLayout({
     setMobileOpen,
 }) {
     const { props } = usePage();
-    const user = props.auth.user;
-    const isAdmin = user?.is_admin === true;
 
-    const menu = [
+    const user = props.auth?.user;
+
+    const isAdmin = user?.is_admin === true;
+    const isLivreur = user?.is_livreur === true;
+
+    const allMenu = [
         {
-            name: "Dashboard",
+            name: "Tableau de bord",
             route: "dashboard",
             activeRoutes: ["dashboard"],
             icon: LayoutDashboard,
@@ -64,13 +67,13 @@ export default function VerticalLayout({
         },
         ...(isAdmin
             ? [
-                {
-                    name: "Administrateurs",
-                    route: "administrateurs.index",
-                    activeRoutes: ["administrateurs.*"],
-                    icon: ShieldCheck,
-                },
-            ]
+                  {
+                      name: "Administrateurs",
+                      route: "administrateurs.index",
+                      activeRoutes: ["administrateurs.*"],
+                      icon: ShieldCheck,
+                  },
+              ]
             : []),
         {
             name: "Clients",
@@ -85,6 +88,12 @@ export default function VerticalLayout({
             icon: BarChart3,
         },
     ];
+
+    const livreurMenu = allMenu.filter((item) =>
+        ["sales.index", "livreurs.index"].includes(item.route)
+    );
+
+    const menu = isLivreur && !isAdmin ? livreurMenu : allMenu;
 
     const isActiveRoute = (item) => {
         if (item.activeRoutes && item.activeRoutes.length > 0) {

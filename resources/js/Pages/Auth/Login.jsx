@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import {
@@ -65,15 +66,10 @@ export default function Login({ status, canResetPassword }) {
 
                         {/* Formulaire */}
                         <div className="mx-auto w-full max-w-md">
-                            <div className="rounded-[32px] border border-cyan-100 bg-white/95 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur-xl transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.2)] dark:border-slate-700 dark:bg-slate-900/95">
-                                {/* Logo */}
-                                <div className="mb-8 flex flex-col items-center justify-center">
-                                    <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-cyan-100 bg-white shadow-xl">
-                                        <img
-                                            src="/images/logo/logo.png" // logo de mon application
-                                            alt="Logo"
-                                            className="h-full w-full object-cover"
-                                        />
+                            <div className="rounded-3xl border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-slate-800 dark:bg-slate-900/95">
+                                <div className="mb-8 text-center">
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
+                                        <LogIn className="h-8 w-8" />
                                     </div>
 
                                     <h1 className="mt-4 text-2xl font-extrabold text-cyan-700 dark:text-cyan-400">

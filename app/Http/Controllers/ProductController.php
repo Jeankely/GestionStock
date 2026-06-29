@@ -6,6 +6,8 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Categorie;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\AppNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -45,18 +47,9 @@ class ProductController extends Controller
             'products' => $products,
             'stats' => [
                 'total' => Product::query()->count(),
-
-                'available' => Product::query()
-                    ->where('status', 'disponible')
-                    ->count(),
-
-                'low_stock' => Product::query()
-                    ->where('status', 'faible_stock')
-                    ->count(),
-
-                'out_of_stock' => Product::query()
-                    ->where('status', 'rupture')
-                    ->count(),
+                'available' => Product::query()->where('status', 'disponible')->count(),
+                'low_stock' => Product::query()->where('status', 'faible_stock')->count(),
+                'out_of_stock' => Product::query()->where('status', 'rupture')->count(),
             ],
         ]);
     }
@@ -85,7 +78,9 @@ class ProductController extends Controller
             $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        Product::query()->create($data);
+        $product = Product::query()->create($data);
+
+        $this->notifyStockAlert($product, 'Alerte stock');
 
         return redirect()
             ->route('products.index')
@@ -134,6 +129,9 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+        $product->refresh();
+
+        $this->notifyStockAlert($product, 'Alerte stock');
 
         return redirect()
             ->route('products.index')
@@ -157,6 +155,29 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with('success', 'Produit supprimé avec succès.');
+    }
+
+    private function notifyStockAlert(Product $product, string $title): void
+    {
+        if (! in_array($product->status, ['faible_stock', 'rupture'], true)) {
+            return;
+        }
+
+        $statusText = $product->status === 'rupture'
+            ? 'en rupture de stock'
+            : 'en faible stock';
+
+        User::role('admin')
+            ->get()
+            ->each(function ($admin) use ($product, $title, $statusText) {
+                $admin->notify(new AppNotification(
+                    title: $title,
+                    message: 'Le produit ' . $product->name . ' est maintenant ' . $statusText . '.',
+                    url: route('products.index'),
+                    type: $product->status === 'rupture' ? 'danger' : 'warning',
+                    icon: 'AlertTriangle'
+                ));
+            });
     }
 
     private function getCategories()
