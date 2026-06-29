@@ -49,7 +49,7 @@ export default function GuestLayout({ children }) {
 
                         {/* LOGO */}
                         <Link href={route("home")} className="group flex items-center gap-3 sm:gap-4">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600/10 ring-1 ring-cyan-500/20 transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14">
                                 <ApplicationLogo className="h-8 w-8 fill-current text-cyan-700 dark:text-cyan-400 sm:h-10 sm:w-10" />
                             </div>
 

@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 import {
     LayoutDashboard,
     FolderTree,
@@ -153,8 +154,8 @@ export default function VerticalLayout({
                             href={route("home")}
                             className="group flex items-center gap-3"
                         >
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 transition group-hover:scale-105">
-                                <MonitorSmartphone className="h-6 w-6" />
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14">
+                                <ApplicationLogo className="h-8 w-8 fill-current text-cyan-700 dark:text-cyan-400 sm:h-10 sm:w-10" />
                             </div>
 
                             <div className="min-w-0">
@@ -225,8 +226,8 @@ export default function VerticalLayout({
                             onClick={() => setMobileOpen(false)}
                             className="group flex min-w-0 items-center gap-3"
                         >
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600 text-white shadow-lg transition group-hover:scale-105">
-                                <MonitorSmartphone className="h-5 w-5" />
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-600/10 ring-1 ring-cyan-500/20 transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14">
+                                <ApplicationLogo className="h-5 w-5 fill-current text-cyan-700 dark:text-cyan-400 sm:h-6 sm:w-6" />
                             </div>
 
                             <div className="min-w-0">

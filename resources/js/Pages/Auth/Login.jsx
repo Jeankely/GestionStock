@@ -68,8 +68,8 @@ export default function Login({ status, canResetPassword }) {
                         <div className="mx-auto w-full max-w-md">
                             <div className="rounded-3xl border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-slate-800 dark:bg-slate-900/95">
                                 <div className="mb-8 text-center">
-                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                                        <LogIn className="h-8 w-8" />
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
+                                        <ApplicationLogo className="h-8 w-8 fill-current text-cyan-700 dark:text-cyan-400 sm:h-10 sm:w-10" />
                                     </div>
 
                                     <h1 className="mt-4 text-2xl font-extrabold text-cyan-700 dark:text-cyan-400">

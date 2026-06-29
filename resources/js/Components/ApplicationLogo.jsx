@@ -4,7 +4,7 @@ export default function ApplicationLogo(props) {
             {...props}
             src="/images/logo/hero.png"
             alt="Jk TechStore Logo"
-            style={{ width: "99px", height: "70px" }}
+            className="object-contain"
         />
     );
 }
