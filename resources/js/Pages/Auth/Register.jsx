@@ -49,10 +49,6 @@ export default function Register() {
                     <div className="grid w-full items-center gap-10 lg:grid-cols-2">
                         {/* Partie gauche */}
                         <div className="hidden text-white lg:block">
-                            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                                <ShieldCheck className="h-4 w-4" />
-                                Création de compte sécurisé
-                            </div>
 
                             <h1 className="mt-6 text-4xl font-extrabold leading-tight xl:text-5xl">
                                 Créez votre compte administrateur

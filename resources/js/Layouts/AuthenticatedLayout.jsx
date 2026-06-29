@@ -35,7 +35,7 @@ export default function AuthenticatedLayout({ children }) {
 
                                     <p className="truncate text-sm text-slate-500 dark:text-slate-400">
                                         Bienvenue dans votre espace
-                                        d’administration
+                                        d'administration
                                     </p>
                                 </div>
                             </div>

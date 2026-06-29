@@ -24,10 +24,6 @@ export default function Contact() {
 
                 <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                     <div className="mx-auto max-w-3xl text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                            <Mail className="h-4 w-4" />
-                            Assistance & informations
-                        </div>
 
                         <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
                             Contactez-nous

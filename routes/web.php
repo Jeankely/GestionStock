@@ -23,7 +23,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
-
+ //DEFINITION DES ROUTES POUR LES DIFFERENTS MODULES DE L'APPLICATION
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

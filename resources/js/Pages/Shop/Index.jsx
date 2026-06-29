@@ -55,9 +55,8 @@ export default function Index({ products = [] }) {
 
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
-            const text = `${product.name || ""} ${product.reference || ""} ${
-                product.category_name || ""
-            } ${product.description || ""}`.toLowerCase();
+            const text = `${product.name || ""} ${product.reference || ""} ${product.category_name || ""
+                } ${product.description || ""}`.toLowerCase();
 
             const matchesSearch = text.includes(search.toLowerCase());
 
@@ -290,7 +289,10 @@ export default function Index({ products = [] }) {
                 </div>
             )}
 
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-950"
+                style={{
+                    backgroundImage: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/home/fond.png')",
+                }}>
                 <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-950 text-white">
                     <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl" />
                     <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
@@ -298,22 +300,24 @@ export default function Index({ products = [] }) {
                     <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                         <div className="grid items-center gap-10 lg:grid-cols-2">
                             <div>
-                                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                                    <ShoppingBag className="h-4 w-4" />
-                                    Boutique JK TechStore
-                                </div>
-
-                                <h1 className="max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-                                    Trouvez votre matériel informatique
-                                    <span className="block text-cyan-200">
-                                        et commandez rapidement
-                                    </span>
+                                <h1
+                                    className="whitespace-nowrap text-4xl font-extrabold sm:text-5xl lg:text-6xl"
+                                    style={{
+                                        marginTop: "-2cm",
+                                        fontFamily: "'Times New Roman', Times, serif"
+                                    }}
+                                >
+                                    <span className="text-cyan-300">Bienvenue dans </span>
+                                    <span className="text-cyan-300">l'Espace de Commande</span>
                                 </h1>
 
-                                <p className="mt-5 max-w-2xl text-sm leading-7 text-cyan-50 sm:text-base">
-                                    Parcourez les produits disponibles, ajoutez-les
-                                    dans votre panier, puis envoyez votre commande.
-                                    L’équipe confirmera ensuite votre vente.
+                                <p
+                                    className="max-w-3xl text-lg leading-8 text-white sm:text-xl lg:text-2xl"
+                                    style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                                >
+                                    "Découvrez notre catalogue des produits et effectuez vos
+                                    commandes en quelques clics. Après cela, ajoutez-les
+                                    dans votre panier, renseigner vos informations puis envoyez votre commande. L'équipe confirmera ensuite votre vente."
                                 </p>
 
                                 <div className="mt-8 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
@@ -323,7 +327,7 @@ export default function Index({ products = [] }) {
                                             {products.length}
                                         </p>
                                         <p className="text-xs text-cyan-100">
-                                            Produits disponibles
+                                            Produits disponibles dans magasin
                                         </p>
                                     </div>
 
@@ -333,7 +337,7 @@ export default function Index({ products = [] }) {
                                             {cartItemsCount}
                                         </p>
                                         <p className="text-xs text-cyan-100">
-                                            Articles au panier
+                                            Articles déja versés au panier
                                         </p>
                                     </div>
 
@@ -349,17 +353,29 @@ export default function Index({ products = [] }) {
                                 </div>
                             </div>
 
-                            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur">
+                            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur"
+                                style={{
+                                    marginBottom: "-0.9cm",
+                                    backgroundImage: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/home/ssd.jpg')",
+                                }}
+                            >
                                 <div className="flex items-center gap-3">
                                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
                                         <ShoppingCart className="h-6 w-6" />
                                     </div>
 
-                                    <div>
-                                        <p className="text-sm text-cyan-100">
-                                            Total panier
+                                    <div
+                                        className="rounded-xl bg-cover bg-center p-6">
+                                        <p
+                                            className="text-sm text-black-600 text-3xl"
+                                        >
+                                            Montant total des produits ajouté dans le panier
                                         </p>
-                                        <h2 className="text-3xl font-extrabold">
+
+                                        <h2
+                                            className="text-3xl font-extrabold text-white"
+                                            style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                                        >
                                             {formatMoney(cartTotal)}
                                         </h2>
                                     </div>
@@ -484,11 +500,10 @@ export default function Index({ products = [] }) {
                                                 </div>
 
                                                 <div
-                                                    className={`absolute right-4 top-4 rounded-full px-3 py-1 text-xs font-semibold text-white backdrop-blur ${
-                                                        isOutOfStock
-                                                            ? "bg-red-600/90"
-                                                            : "bg-slate-950/70"
-                                                    }`}
+                                                    className={`absolute right-4 top-4 rounded-full px-3 py-1 text-xs font-semibold text-white backdrop-blur ${isOutOfStock
+                                                        ? "bg-red-600/90"
+                                                        : "bg-slate-950/70"
+                                                        }`}
                                                 >
                                                     {isOutOfStock
                                                         ? "Rupture"
@@ -496,28 +511,29 @@ export default function Index({ products = [] }) {
                                                 </div>
                                             </div>
 
-                                            <div className="space-y-4 p-5">
-                                                <div>
+                                            <div className="space-y-2 p-4">
+                                                <div className="space-y-0.5">
                                                     <p className="text-xs font-semibold text-slate-400">
                                                         {product.reference}
                                                     </p>
 
-                                                    <h3 className="mt-1 line-clamp-1 text-lg font-bold text-slate-900 dark:text-white">
+                                                    <h3 className="line-clamp-2 text-xl font-extrabold tracking-wide text-slate-900 dark:text-white">
                                                         {product.name}
                                                     </h3>
 
-                                                    <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-slate-500 dark:text-slate-400">
+                                                    <p className="line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
                                                         {product.description ||
                                                             "Aucune description disponible."}
                                                     </p>
                                                 </div>
 
-                                                <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
+                                                <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-2 dark:bg-slate-800/60">
                                                     <div>
                                                         <p className="text-xs text-slate-500 dark:text-slate-400">
                                                             Prix
                                                         </p>
-                                                        <p className="text-xl font-extrabold text-cyan-700 dark:text-cyan-300">
+
+                                                        <p className="text-2xl font-extrabold text-cyan-700 dark:text-cyan-300">
                                                             {formatMoney(product.selling_price)}
                                                         </p>
                                                     </div>
@@ -533,18 +549,17 @@ export default function Index({ products = [] }) {
                                                     type="button"
                                                     onClick={() => addToCart(product)}
                                                     disabled={isMaxReached}
-                                                    className={`inline-flex h-11 w-full items-center justify-center gap-2 rounded-2xl px-5 text-sm font-semibold shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60 ${
-                                                        isOutOfStock
-                                                            ? "bg-red-100 text-red-700 shadow-none dark:bg-red-900/20 dark:text-red-300"
-                                                            : "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-cyan-500/20 hover:opacity-95"
-                                                    }`}
+                                                    className={`inline-flex h-11 w-full items-center justify-center gap-2 rounded-2xl px-5 text-sm font-semibold shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60 ${isOutOfStock
+                                                        ? "bg-red-100 text-red-700 shadow-none dark:bg-red-900/20 dark:text-red-300"
+                                                        : "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-cyan-500/20 hover:opacity-95"
+                                                        }`}
                                                 >
                                                     <ShoppingCart className="h-4 w-4" />
                                                     {isOutOfStock
                                                         ? "Rupture de stock"
                                                         : isMaxReached
-                                                          ? "Stock maximum atteint"
-                                                          : "Ajouter au panier"}
+                                                            ? "Stock maximum atteint"
+                                                            : "Ajouter au panier"}
                                                 </button>
                                             </div>
                                         </article>
@@ -671,78 +686,74 @@ export default function Index({ products = [] }) {
                             )}
                         </section>
 
-                        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                        <section className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-cyan-50 p-6 shadow-md dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+
+                            {/* TITRE */}
+                            <h2 className="text-2xl font-extrabold tracking-wide text-slate-900 dark:text-white">
                                 Informations client
                             </h2>
-                            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+
+                            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                                 Ces informations seront utilisées pour enregistrer votre commande.
                             </p>
 
-                            <form onSubmit={submitOrder} className="mt-5 space-y-4">
+                            <form onSubmit={submitOrder} className="mt-6 space-y-5">
+
+                                {/* NOM */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Nom complet
                                     </label>
                                     <div className="relative">
-                                        <UserCircle2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                        <UserCircle2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-500" />
                                         <input
                                             type="text"
                                             value={data.name}
                                             onChange={(e) => setData("name", e.target.value)}
                                             placeholder="Votre nom"
-                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                                         />
                                     </div>
-                                    {errors.name && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.name}
-                                        </p>
-                                    )}
+                                    {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
                                 </div>
 
+                                {/* TELEPHONE */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Téléphone
                                     </label>
                                     <div className="relative">
-                                        <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                        <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-500" />
                                         <input
                                             type="text"
                                             value={data.phone}
                                             onChange={(e) => setData("phone", e.target.value)}
                                             placeholder="+261..."
-                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                                         />
                                     </div>
-                                    {errors.phone && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.phone}
-                                        </p>
-                                    )}
+                                    {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
                                 </div>
 
+                                {/* EMAIL */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Email
                                     </label>
                                     <div className="relative">
-                                        <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                        <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-500" />
                                         <input
                                             type="email"
                                             value={data.email}
                                             onChange={(e) => setData("email", e.target.value)}
                                             placeholder="email@example.com"
-                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+                                            className="h-11 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                                         />
                                     </div>
-                                    {errors.email && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.email}
-                                        </p>
-                                    )}
+                                    {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
                                 </div>
 
+                                {/* TYPE */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Type
@@ -755,57 +766,49 @@ export default function Index({ products = [] }) {
                                         <option value="particulier">Particulier</option>
                                         <option value="entreprise">Entreprise</option>
                                     </select>
-                                    {errors.type && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.type}
-                                        </p>
-                                    )}
                                 </div>
 
+                                {/* ADRESSE */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Adresse
                                     </label>
                                     <div className="relative">
-                                        <MapPin className="pointer-events-none absolute left-3 top-4 h-4 w-4 text-slate-400" />
+                                        <MapPin className="pointer-events-none absolute left-3 top-4 h-4 w-4 text-cyan-500" />
                                         <textarea
                                             rows="3"
                                             value={data.address}
                                             onChange={(e) => setData("address", e.target.value)}
                                             placeholder="Votre adresse"
-                                            className="w-full resize-none rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+                                            className="w-full resize-none rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                                         />
                                     </div>
-                                    {errors.address && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.address}
-                                        </p>
-                                    )}
                                 </div>
 
+                                {/* PAIEMENT */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Mode de paiement
                                     </label>
 
-                                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-900/20">
+                                    <div className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-cyan-50 p-4 dark:border-emerald-900 dark:from-emerald-900/20 dark:to-slate-900">
                                         <div className="flex items-center gap-3">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-700 dark:bg-slate-900 dark:text-emerald-300">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-600 dark:bg-slate-900">
                                                 <CreditCard className="h-5 w-5" />
                                             </div>
-
                                             <div>
                                                 <p className="text-sm font-bold text-emerald-800 dark:text-emerald-200">
-                                                    Paiement par espèce
+                                                    Paiement en espèces
                                                 </p>
                                                 <p className="text-xs text-emerald-700 dark:text-emerald-300">
-                                                    Pour commencer, toutes les commandes sont enregistrées avec paiement en espèce.
+                                                    Toutes les commandes sont enregistrées avec paiement à la livraison.
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                {/* NOTES */}
                                 <div>
                                     <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                                         Note
@@ -815,31 +818,27 @@ export default function Index({ products = [] }) {
                                         value={data.notes}
                                         onChange={(e) => setData("notes", e.target.value)}
                                         placeholder="Message ou précision..."
-                                        className="w-full resize-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
+                                        className="w-full resize-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                                     />
-                                    {errors.notes && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.notes}
-                                        </p>
-                                    )}
                                 </div>
 
+                                {/* ERREURS */}
                                 {errors.items && (
                                     <p className="rounded-2xl bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-300">
                                         {errors.items}
                                     </p>
                                 )}
 
+                                {/* BUTTON */}
                                 <button
                                     type="submit"
                                     disabled={processing || cart.length === 0}
-                                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 px-5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 px-5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:scale-[1.01] hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                     <Send className="h-4 w-4" />
-                                    {processing
-                                        ? "Envoi en cours..."
-                                        : "Confirmer la commande"}
+                                    {processing ? "Envoi en cours..." : "Envoyer vos commandes"}
                                 </button>
+
                             </form>
                         </section>
                     </aside>

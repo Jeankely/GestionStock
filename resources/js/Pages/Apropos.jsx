@@ -25,17 +25,13 @@ export default function Apropos() {
 
                 <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                     <div className="mx-auto max-w-3xl text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                            <Info className="h-4 w-4" />
-                            Présentation du projet
-                        </div>
-
+                    
                         <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
-                            À propos de l’application
+                            À propos de l'application
                         </h1>
 
                         <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg">
-                            Découvrez le contexte, le développeur et l’objectif de ce
+                            Découvrez le contexte, le développeur et l'objectif de ce
                             système de gestion de vente de matériel informatique.
                         </p>
                     </div>

@@ -91,8 +91,8 @@ export default function Index({
                                         Rapports et statistiques
                                     </h1>
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Suivez le chiffre d’affaires, les produits vendus,
-                                        les nouveaux clients et l’évolution mensuelle depuis
+                                        Suivez le chiffre d'affaires, les produits vendus,
+                                        les nouveaux clients et l'évolution mensuelle depuis
                                         les vraies données de la base.
                                     </p>
                                 </div>
@@ -154,7 +154,7 @@ export default function Index({
                                         Évolution mensuelle
                                     </h2>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Chiffre d’affaires des ventes validées, payées ou livrées
+                                        Chiffre d'affaires des ventes validées, payées ou livrées
                                     </p>
                                 </div>
                             </div>

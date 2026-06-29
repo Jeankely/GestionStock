@@ -29,7 +29,7 @@ export default function Home() {
         },
         {
             title: "Gestion des Ventes",
-            text: "Suivez les ventes, les factures et l’historique des transactions pour une meilleure maîtrise commerciale.",
+            text: "Suivez les ventes, les factures et l'historique des transactions pour une meilleure maîtrise commerciale.",
             icon: ShoppingCart,
         },
         {
@@ -65,6 +65,13 @@ export default function Home() {
             icon: LaptopMinimal,
         },
         {
+            title: "Ordinateurs de bureau",
+            subtitle: "Ce PC est utilisé à un endroit fixe.",
+            image: "/images/home/bureau.jpg",
+            icon: Monitor,
+        },
+        
+        {
             title: "Claviers",
             subtitle: "Accessoires de saisie",
             image: "/images/home/keyboard.jpg",
@@ -77,10 +84,10 @@ export default function Home() {
             icon: Mouse,
         },
         {
-            title: "Imprimantes",
-            subtitle: "Bureautique et réseau",
-            image: "/images/home/printer.jpg",
-            icon: Printer,
+            title: "Disques durs HDD/SSD",
+            subtitle: "Stockage de données fiable et rapide",
+            image: "/images/home/ssd.jpg",
+            icon: PackageCheck,
         },
     ];
 
@@ -97,16 +104,31 @@ export default function Home() {
             image: "/images/home/router.jpg",
             icon: Wifi,
         },
+
         {
             title: "Périphériques",
             text: "Claviers, souris, imprimantes et équipements utiles.",
             image: "/images/home/keyboard.jpg",
             icon: PackageCheck,
         },
+
+        {
+            title: "RAM DDR3/DDR4",
+            text: "Stockage temporaire de données pour une performance optimale",
+            image: "/images/home/ram.jpg",
+            icon: PackageCheck,
+        },
+
+        {
+            title: "Imprimantes",
+            text: "Bureautique et réseau",
+            image: "/images/home/printer.jpg",
+            icon: Printer,
+        },
     ];
 
     const highlights = [
-        {
+        /*{
             title: "Catalogue bien structuré",
             text: "Organisez facilement tous vos produits informatiques.",
             icon: PackageCheck,
@@ -120,14 +142,14 @@ export default function Home() {
             title: "Meilleure relation client",
             text: "Centralisez les informations utiles sur vos clients.",
             icon: Users,
-        },
+        },*/
     ];
 
     return (
         <GuestLayout>
             <Head title="Accueil" />
 
-            {/* HERO SECTION */}
+            {/* GRANDE SECTION */}
             <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-950 text-white">
                 <div className="absolute inset-0 opacity-25">
                     <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-white blur-3xl" />
@@ -138,31 +160,37 @@ export default function Home() {
                 <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
                     <div className="grid items-center gap-12 lg:grid-cols-2">
                         <div className="text-center lg:text-left">
-                            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                                <Sparkles className="h-4 w-4" />
-                                Solution moderne pour votre activité informatique
-                            </div>
-
-                            <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-                                Système de gestion de vente
-                                <span className="mt-2 block text-cyan-200">
-                                    de matériel informatique
-                                </span>
+                            {/* Titre projet */}
+                            <h1
+                            className="text-4xl font-extrabold leading-tight sm:text-6xl lg:text-5xl"
+                            style={{
+                            marginTop: "-10cm",
+                            fontFamily: "'Times New Roman', Times, serif",
+                            }}
+                            >
+                            Système de gestion de vente
+                            <span className="mt-2 block sm:text-5xl text-cyan-200">
+                            de matériel informatique
+                            </span>
                             </h1>
 
-                            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg lg:mx-0">
-                                Gérez vos produits, vos ventes, vos clients et
-                                votre stock dans une plateforme professionnelle,
-                                rapide et adaptée aux besoins d’un magasin
-                                informatique.
+                            <p
+                            className="mx-auto mt-6 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg lg:mx-0"
+                            style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                            >
+                            Gérez vos produits, vos ventes, vos clients et
+                            votre stock dans une plateforme professionnelle,
+                            rapide et adaptée aux besoins d'un magasin
+                            informatique.
                             </p>
 
+                            {/* Inscription nouveau client */}
                             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
                                 <Link
-                                    href={route("login")}
+                                    href={route("register")}
                                     className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-cyan-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                                 >
-                                    Commencer
+                                    S'inscrire
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
 
@@ -201,7 +229,6 @@ export default function Home() {
                             <div className="grid grid-cols-2 gap-4">
                                 {toolImages.map((item, index) => {
                                     const Icon = item.icon;
-
                                     return (
                                         <div
                                             key={index}
@@ -237,7 +264,7 @@ export default function Home() {
                                     );
                                 })}
                             </div>
-
+                            {/* Liste des avantagse 
                             <div className="mt-4 rounded-3xl border border-white/15 bg-white/10 p-5 shadow-xl backdrop-blur-md">
                                 <p className="text-sm text-cyan-100">
                                     Une interface conçue pour :
@@ -257,72 +284,23 @@ export default function Home() {
                                         • Gagner du temps au quotidien
                                     </li>
                                 </ul>
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* FEATURES */}
-            <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-                <div className="mx-auto max-w-3xl text-center">
-                    <span className="inline-block rounded-full bg-cyan-100 px-4 py-1 text-sm font-semibold text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                        Fonctionnalités principales
-                    </span>
-
-                    <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-                        Les bases essentielles pour bien gérer votre activité
-                    </h2>
-
-                    <p className="mt-4 text-slate-600 dark:text-slate-400">
-                        Une plateforme pensée pour simplifier la vente, le suivi
-                        des produits et la gestion du stock dans le domaine
-                        informatique.
-                    </p>
-                </div>
-
-                <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    {features.map((item, index) => {
-                        const Icon = item.icon;
-
-                        return (
-                            <div
-                                key={index}
-                                className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
-                            >
-                                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 transition group-hover:scale-110 dark:bg-cyan-900/30 dark:text-cyan-300">
-                                    <Icon className="h-7 w-7" />
-                                </div>
-
-                                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
-                                    {item.title}
-                                </h3>
-
-                                <p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">
-                                    {item.text}
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
-            </section>
 
             {/* GALERIE OUTILS */}
             <section className="bg-slate-50 py-16 dark:bg-slate-950/50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-10 text-center">
-                        <span className="inline-block rounded-full bg-white px-4 py-1 text-sm font-semibold text-cyan-700 shadow-sm dark:bg-slate-900 dark:text-cyan-300">
-                            Univers informatique
-                        </span>
-
-                        <h2 className="mt-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
-                            Quelques outils et équipements informatiques
-                        </h2>
-
-                        <p className="mt-4 text-slate-600 dark:text-slate-400">
-                            Présentez visuellement les catégories de matériels
-                            que vous gérez dans votre boutique.
-                        </p>
+                    <h2
+                    className="mt-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl animate-title"
+                    style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                    >
+                    Quelques outils et équipements informatiques dans notre catalogue.
+                    </h2>
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

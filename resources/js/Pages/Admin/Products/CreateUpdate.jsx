@@ -181,7 +181,7 @@ export default function CreateUpdate({
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
                                         Ajoutez vos matériels informatiques avec
                                         leur catégorie, prix, stock, seuil
-                                        d’alerte et image.
+                                        d'alerte et image.
                                     </p>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@ export default function CreateUpdate({
 
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
                                     La référence sera générée automatiquement
-                                    après l’enregistrement.
+                                    après l'enregistrement.
                                 </p>
                             </div>
                         </div>

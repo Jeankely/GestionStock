@@ -48,7 +48,7 @@ export default function Dashboard({
 
     return (
         <AuthenticatedLayout>
-            <Head title="Dashboard" />
+            <Head title="Tableau de bord" />
 
             <div className="space-y-6">
                 <section className="rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 p-6 text-white shadow-xl">
