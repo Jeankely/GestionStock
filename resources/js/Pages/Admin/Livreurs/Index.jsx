@@ -137,7 +137,7 @@ export default function Index({
             )}
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                             <div className="flex items-start gap-4">
@@ -146,12 +146,9 @@ export default function Index({
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Gestion des livraisons
-                                    </p>
-
+                                    
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Livreurs
+                                        LIVREURS
                                     </h1>
 
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">

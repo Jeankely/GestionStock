@@ -28,12 +28,6 @@ export default function Contact() {
                         <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
                             Contactez-nous
                         </h1>
-
-                        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg">
-                            Une question sur le système de gestion de vente de matériel
-                            informatique ? Notre équipe est à votre disposition pour vous
-                            répondre rapidement.
-                        </p>
                     </div>
                 </div>
             </section>
@@ -104,9 +98,6 @@ export default function Contact() {
                                     <h3 className="font-semibold text-slate-900 dark:text-white">
                                         Support professionnel
                                     </h3>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        Nous vous répondons avec sérieux et rapidité.
-                                    </p>
                                 </div>
                             </div>
                         </div>

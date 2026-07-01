@@ -97,7 +97,8 @@ export default function AuthenticatedLayout({ children }) {
                 mobileOpen={mobileOpen}
                 setMobileOpen={setMobileOpen}
             >
-                <header className="sticky top-0 z-30 w-full border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95">
+                <header className="sticky top-0 z-30 w-full rounded-3xl border border-cyan-500 bg-white/95 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95">
+                    
                     <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
                         <div className="flex w-full items-center justify-between gap-4">
                             <div className="flex min-w-0 items-center gap-3">
@@ -115,7 +116,7 @@ export default function AuthenticatedLayout({ children }) {
                                     </h1>
 
                                     <p className="truncate text-sm text-slate-500 dark:text-slate-400">
-                                        Bienvenue dans votre espace
+                                        Bienvenue dans l'espace
                                         d'administration
                                     </p>
                                 </div>

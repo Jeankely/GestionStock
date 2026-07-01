@@ -58,7 +58,7 @@ export default function Index({ categories = [] }) {
             <Head title="Catégories" />
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute right-6 top-6 hidden h-24 w-24 rounded-full bg-white/10 blur-2xl sm:block" />
 
@@ -68,24 +68,20 @@ export default function Index({ categories = [] }) {
                                     <FolderTree className="h-7 w-7" />
                                 </div>
 
-                                <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Catalogue informatique
-                                    </p>
+                                <div>                                 
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Gestion des catégories
+                                        GESTION DES CATÉGORIES
                                     </h1>
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Organisez vos produits informatiques par
-                                        catégories pour faciliter la vente, le stock
-                                        et les rapports.
+                                        Organisation des produits  par
+                                        catégories pour faciliter la vente.
                                     </p>
                                 </div>
                             </div>
 
                             <Link
                                 href={route("categories.create")}
-                                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
+                                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
                             >
                                 <Plus className="h-4 w-4" />
                                 Nouvelle catégorie
@@ -100,11 +96,11 @@ export default function Index({ categories = [] }) {
                             <FolderTree className="h-11 w-11 rounded-2xl bg-cyan-50 p-2 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-300" />
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Total catégories
+                                    <span className="font-bold ">Catégories</span> 
                                 </p>
-                                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                                     {categories.length}
-                                </h3>
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -114,7 +110,7 @@ export default function Index({ categories = [] }) {
                             <Power className="h-11 w-11 rounded-2xl bg-emerald-50 p-2 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-300" />
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Actives
+                                    <span className="font-bold ">Actives</span> 
                                 </p>
                                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                                     {
@@ -132,7 +128,7 @@ export default function Index({ categories = [] }) {
                             <PowerOff className="h-11 w-11 rounded-2xl bg-red-50 p-2 text-red-600 dark:bg-red-900/20 dark:text-red-300" />
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Inactives
+                                    <span className="font-bold ">Inactives</span> 
                                 </p>
                                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                                     {
@@ -150,7 +146,7 @@ export default function Index({ categories = [] }) {
                             <Boxes className="h-11 w-11 rounded-2xl bg-amber-50 p-2 text-amber-600 dark:bg-amber-900/20 dark:text-amber-300" />
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Produits liés
+                                    <span className="font-bold ">Produits liés</span> 
                                 </p>
                                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                                     {categories.reduce(
@@ -164,7 +160,7 @@ export default function Index({ categories = [] }) {
                     </div>
                 </section>
 
-                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <section className="rounded-3xl border border-blue-500 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -231,9 +227,10 @@ export default function Index({ categories = [] }) {
                                     </p>
 
                                     <div className="mt-5 flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60">
-                                        <span className="text-sm text-slate-500 dark:text-slate-400">
-                                            Produits
-                                        </span>
+                                        
+                                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                                             <span className="font-bold ">Produits</span> 
+                                        </p>
                                         <span className="text-sm font-bold text-slate-900 dark:text-white">
                                             {category.products_count || 0}
                                         </span>
@@ -248,7 +245,9 @@ export default function Index({ categories = [] }) {
                                             className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                                         >
                                             <Pencil className="h-4 w-4" />
-                                            Modifier
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                                             <span className="font-bold ">Modifier</span> 
+                                            </p>
                                         </Link>
 
                                         <button

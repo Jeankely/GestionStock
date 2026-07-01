@@ -1,9 +1,9 @@
 export default function Footer() {
     return (
-        <footer className="bg-slate-800 text-white py-6 mt-10">
+        <footer className="bg-cyan-800 text-white py-6 mt-10">
             <div className="container mx-auto px-6 text-center">
                 <p
-                    className="text-2xl"
+                    className="text-1xl"
                     style={{ fontFamily: "'Times New Roman', Times, serif" }}
                 >
                     © {new Date().getFullYear()} JK TechStore à Antsohihy.
@@ -11,7 +11,7 @@ export default function Footer() {
                 </p>
 
                 <div
-                    className="mt-3 space-x-6 text-2xl"
+                    className="mt-3 space-x-6 text-1xl"
                     style={{ fontFamily: "'Times New Roman', Times, serif" }}
                 >
                     <a href="/" className="hover:underline">

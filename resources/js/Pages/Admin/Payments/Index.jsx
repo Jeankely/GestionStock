@@ -92,21 +92,15 @@ export default function Index({ payments = [], stats = {} }) {
             )}
 
             <div className="space-y-6">
-                <section className="rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 p-6 text-white shadow-xl sm:p-8">
+                <section className="rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-blue-700 p-6 text-white shadow-xl sm:p-8">
                     <div className="flex items-start gap-4">
                         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
                             <CreditCard className="h-7 w-7" />
                         </div>
                         <div>
-                            <p className="text-sm text-cyan-100">
-                                Finances
-                            </p>
                             <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                Gestion des paiements
+                                GESTION DES PAIEMENTS
                             </h1>
-                            <p className="mt-2 max-w-2xl text-sm text-cyan-100">
-                                Suivez les paiements partiels et complets des ventes.
-                            </p>
                         </div>
                     </div>
                 </section>

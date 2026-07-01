@@ -157,7 +157,7 @@ export default function CreateUpdate({
             <Head title={isEdit ? "Modifier un produit" : "Nouveau produit"} />
 
             <div className="mx-auto max-w-6xl space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute right-6 top-6 hidden h-24 w-24 rounded-full bg-white/10 blur-2xl sm:block" />
 
@@ -168,20 +168,13 @@ export default function CreateUpdate({
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Catalogue informatique
-                                    </p>
-
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         {isEdit
                                             ? "Modifier le produit"
                                             : "Créer un nouveau produit"}
                                     </h1>
-
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Ajoutez vos matériels informatiques avec
-                                        leur catégorie, prix, stock, seuil
-                                        d'alerte et image.
+                                        Entrez vos produits avec leur catégorie, prix, stock, et son image.
                                     </p>
                                 </div>
                             </div>
@@ -295,7 +288,7 @@ export default function CreateUpdate({
                                             e.target.value
                                         )
                                     }
-                                    placeholder="Ex : 1800000"
+                                    placeholder="Ex : 200000"
                                     className={inputClass(
                                         errors.purchase_price
                                     )}
@@ -325,7 +318,7 @@ export default function CreateUpdate({
                                             e.target.value
                                         )
                                     }
-                                    placeholder="Ex : 2100000"
+                                    placeholder="Ex : 300000"
                                     className={inputClass(errors.selling_price)}
                                 />
 
@@ -408,7 +401,7 @@ export default function CreateUpdate({
                                 </div>
 
                                 <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                                    Le statut est calculé automatiquement selon
+                                    Ce statut est calculé automatiquement selon
                                     le stock disponible.
                                 </p>
 
@@ -469,7 +462,7 @@ export default function CreateUpdate({
                                             <div className="absolute inset-0 bg-black/35 opacity-0 transition group-hover:opacity-100" />
 
                                             <div className="relative z-10 hidden rounded-2xl bg-white/90 px-5 py-3 text-sm font-semibold text-slate-800 shadow-lg group-hover:flex dark:bg-slate-900/90 dark:text-white">
-                                                Changer l’image
+                                                Changer l'image
                                             </div>
                                         </>
                                     ) : (
@@ -547,7 +540,7 @@ export default function CreateUpdate({
 
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
                                         Vérifiez les informations avant
-                                        d’enregistrer.
+                                        d'enregistrer.
                                     </p>
                                 </div>
                             </div>

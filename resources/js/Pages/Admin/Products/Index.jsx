@@ -63,9 +63,8 @@ export default function Index({ products = [], stats = {} }) {
 
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
-            const text = `${product.name || ""} ${product.reference || ""} ${
-                product.category_name || ""
-            } ${product.status || ""}`.toLowerCase();
+            const text = `${product.name || ""} ${product.reference || ""} ${product.category_name || ""
+                } ${product.status || ""}`.toLowerCase();
 
             return text.includes(search.toLowerCase());
         });
@@ -88,26 +87,22 @@ export default function Index({ products = [], stats = {} }) {
             <Head title="Produits" />
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-500 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute right-6 top-6 hidden h-24 w-24 rounded-full bg-white/10 blur-2xl sm:block" />
 
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                            <div className="flex items-start gap-4">
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
-                                    <Package className="h-7 w-7" />
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md shadow-md">
+                                    <Package className="h-5 w-5 text-white" />
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Catalogue informatique
-                                    </p>
-                                    <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Gestion des produits
+                                    <h1 className="text-xl font-bold tracking-wide text-white sm:text-2xl">
+                                        GESTION DES PRODUITS
                                     </h1>
-                                    <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Gérez vos produits, leur prix, leur stock,
-                                        leur catégorie et leur disponibilité.
+                                    <p className="text-xs text-cyan-100">
+                                        Administration et suivi des produits
                                     </p>
                                 </div>
                             </div>
@@ -117,7 +112,9 @@ export default function Index({ products = [], stats = {} }) {
                                 className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
                             >
                                 <Plus className="h-4 w-4" />
-                                Nouveau produit
+                                <p className="text-sm text-black-500 dark:text-slate-400">
+                                    <span className="font-bold ">Nouveau produit</span>
+                                </p>
                             </Link>
                         </div>
                     </div>
@@ -128,8 +125,8 @@ export default function Index({ products = [], stats = {} }) {
                         <div className="flex items-center gap-3">
                             <Boxes className="h-10 w-10 rounded-2xl bg-cyan-50 p-2 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-300" />
                             <div>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Total produits
+                                <p className="text-sm text-black-500 dark:text-slate-400">
+                                    <span className="font-bold ">Total produits</span>
                                 </p>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     {stats.total || 0}
@@ -142,8 +139,8 @@ export default function Index({ products = [], stats = {} }) {
                         <div className="flex items-center gap-3">
                             <Tag className="h-10 w-10 rounded-2xl bg-emerald-50 p-2 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-300" />
                             <div>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Disponibles
+                                <p className="text-sm text-black-500 dark:text-slate-400">
+                                    <span className="font-bold ">Disponibles</span>
                                 </p>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     {stats.available || 0}
@@ -156,8 +153,8 @@ export default function Index({ products = [], stats = {} }) {
                         <div className="flex items-center gap-3">
                             <HardDrive className="h-10 w-10 rounded-2xl bg-amber-50 p-2 text-amber-600 dark:bg-amber-900/20 dark:text-amber-300" />
                             <div>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Faible stock
+                                <p className="text-sm text-black-500 dark:text-slate-400">
+                                    <span className="font-bold ">Faible stock</span>
                                 </p>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     {stats.low_stock || 0}
@@ -170,8 +167,8 @@ export default function Index({ products = [], stats = {} }) {
                         <div className="flex items-center gap-3">
                             <AlertTriangle className="h-10 w-10 rounded-2xl bg-red-50 p-2 text-red-600 dark:bg-red-900/20 dark:text-red-300" />
                             <div>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Rupture
+                                <p className="text-sm text-black-500 dark:text-slate-400">
+                                    <span className="font-bold ">Rupture</span>
                                 </p>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     {stats.out_of_stock || 0}
@@ -181,10 +178,10 @@ export default function Index({ products = [], stats = {} }) {
                     </div>
                 </section>
 
-                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <section className="rounded-3xl border border-blue-500 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                            <h2 className="text-lg font-bold text-black dark:text-white">
                                 Liste des produits
                             </h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -192,7 +189,8 @@ export default function Index({ products = [], stats = {} }) {
                             </p>
                         </div>
 
-                        <div className="relative w-full lg:w-80">
+                        {/* champ de recherche */}
+                        <div className="relative w-full lg:w-80 rounded-2xl border border-cyan-500">
                             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
@@ -205,6 +203,7 @@ export default function Index({ products = [], stats = {} }) {
                     </div>
                 </section>
 
+                {/* Liste des produits */}
                 {filteredProducts.length > 0 ? (
                     <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                         {filteredProducts.map((product) => {
@@ -262,9 +261,9 @@ export default function Index({ products = [], stats = {} }) {
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-3">
-                                            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/60">
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    Prix d’achat
+                                            <div className="rounded-2xl border border-cyan-500 bg-slate-50 p-3 dark:bg-slate-800/60">
+                                                <p className="text-xs text-black-500 dark:text-slate-400">
+                                                    Prix dachat
                                                 </p>
                                                 <p className="mt-1 text-sm font-bold text-slate-900 dark:text-white">
                                                     {formatMoney(
@@ -273,8 +272,8 @@ export default function Index({ products = [], stats = {} }) {
                                                 </p>
                                             </div>
 
-                                            <div className="rounded-2xl bg-cyan-50 p-3 dark:bg-cyan-900/20">
-                                                <p className="text-xs text-cyan-700 dark:text-cyan-300">
+                                            <div className="rounded-2xl border border-cyan-500 rounded-2xl bg-cyan-50 p-3 dark:bg-cyan-900/20">
+                                                <p className="text-xs text-cyan-700 dark:text-cyan-300 text-bold">
                                                     Prix de vente
                                                 </p>
                                                 <p className="mt-1 text-sm font-bold text-cyan-800 dark:text-cyan-200">
@@ -286,11 +285,11 @@ export default function Index({ products = [], stats = {} }) {
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-3">
-                                            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/60">
+                                            <div className="rounded-2xl border border-green-500 bg-slate-50 p-3 dark:bg-slate-800/60">
                                                 <div className="flex items-center gap-2">
                                                     <ShoppingBag className="h-4 w-4 text-slate-500" />
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                        Stock
+                                                    <p className="text-xs text-black-600 dark:text-black-400">
+                                                        Stock disponible
                                                     </p>
                                                 </div>
                                                 <p className="mt-1 text-sm font-bold text-slate-900 dark:text-white">
@@ -298,7 +297,7 @@ export default function Index({ products = [], stats = {} }) {
                                                 </p>
                                             </div>
 
-                                            <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/60">
+                                            <div className="rounded-2xl border border-red-500 bg-slate-50 p-3 dark:bg-slate-800/60">
                                                 <div className="flex items-center gap-2">
                                                     <AlertTriangle className="h-4 w-4 text-slate-500" />
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">

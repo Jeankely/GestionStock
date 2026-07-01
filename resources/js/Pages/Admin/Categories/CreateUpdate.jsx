@@ -64,7 +64,7 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
             />
 
             <div className="mx-auto max-w-5xl space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-500 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute right-6 top-6 hidden h-24 w-24 rounded-full bg-white/10 blur-2xl sm:block" />
 
@@ -75,21 +75,11 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Gestion des catégories
-                                    </p>
-
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         {isEdit
                                             ? "Modifier la catégorie"
                                             : "Créer une nouvelle catégorie"}
                                     </h1>
-
-                                    <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Organisez vos produits informatiques par
-                                        familles : ordinateurs, imprimantes,
-                                        composants, stockage, réseaux ou sécurité.
-                                    </p>
                                 </div>
                             </div>
 
@@ -97,8 +87,10 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
                                 href={route("categories.index")}
                                 className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
                             >
-                                <ArrowLeft className="h-4 w-4" />
-                                Retour
+                                <ArrowLeft className="h-4 w-5" />
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                                        <span className="font-bold ">Retour</span> 
+                                    </p>
                             </Link>
                         </div>
                     </div>
@@ -263,7 +255,7 @@ export default function CreateUpdate({ categorie = null, mode = "create" }) {
 
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
                                         Vérifiez les informations avant
-                                        d’enregistrer.
+                                        d'enregistrer.
                                     </p>
                                 </div>
                             </div>

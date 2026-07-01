@@ -51,25 +51,12 @@ export default function Dashboard({
             <Head title="Tableau de bord" />
 
             <div className="space-y-6">
-                <section className="rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 p-6 text-white shadow-xl">
+                <section className="rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-blue-700 p-6 text-white shadow-xl">
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                            <p className="text-sm font-medium text-cyan-100">
-                                Tableau de bord
-                            </p>
-
                             <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
-                                Gestion de vente des outils informatiques
+                            TABLEAU DE BORD DU GERANT DE L'ENTREPRISE
                             </h1>
-
-                            <p className="mt-2 max-w-2xl text-sm text-cyan-100 sm:text-base">
-                                Suivez vos ventes, votre stock, vos clients et vos
-                                performances commerciales depuis une seule interface.
-                            </p>
-                        </div>
-
-                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
-                            <Laptop className="h-8 w-8" />
                         </div>
                     </div>
                 </section>

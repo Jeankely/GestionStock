@@ -60,7 +60,7 @@ export default function Index({ clients = [], stats = {} }) {
             <Head title="Clients" />
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute right-6 top-6 hidden h-24 w-24 rounded-full bg-white/10 blur-2xl sm:block" />
 
@@ -71,14 +71,11 @@ export default function Index({ clients = [], stats = {} }) {
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Relation client
-                                    </p>
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         Gestion des clients
                                     </h1>
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Consultez les clients enregistrés depuis les commandes,
+                                        Consultion des clients enregistrés depuis les commandes,
                                         leurs coordonnées et leur historique commercial.
                                     </p>
                                 </div>
@@ -145,7 +142,7 @@ export default function Index({ clients = [], stats = {} }) {
                     </div>
                 </section>
 
-                <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <section className="rounded-3xl border border-blue-600 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
                             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -272,7 +269,7 @@ export default function Index({ clients = [], stats = {} }) {
                             Aucun client trouvé
                         </h3>
                         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                            Les clients apparaîtront ici lorsqu’ils passent une commande.
+                            Les clients apparaîtront ici lorsqu'ils passent une commande.
                         </p>
                     </section>
                 )}

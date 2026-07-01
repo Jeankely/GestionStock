@@ -300,7 +300,7 @@ export default function Index({ products = [] }) {
                     <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                         <div className="grid items-center gap-10 lg:grid-cols-2">
                             <div>
-                                <h1
+                                <h3
                                     className="whitespace-nowrap text-4xl font-extrabold sm:text-5xl lg:text-6xl"
                                     style={{
                                         marginTop: "-2cm",
@@ -309,10 +309,10 @@ export default function Index({ products = [] }) {
                                 >
                                     <span className="text-cyan-300">Bienvenue dans </span>
                                     <span className="text-cyan-300">l'Espace de Commande</span>
-                                </h1>
+                                </h3>
 
                                 <p
-                                    className="max-w-3xl text-lg leading-8 text-white sm:text-xl lg:text-2xl"
+                                    className="max-w-3xl text-lg leading-8 text-white sm:text-xl lg:text-1xl"
                                     style={{ fontFamily: "'Times New Roman', Times, serif" }}
                                 >
                                     "Découvrez notre catalogue des produits et effectuez vos
@@ -321,7 +321,7 @@ export default function Index({ products = [] }) {
                                 </p>
 
                                 <div className="mt-8 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
-                                    <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur">
+                                    <div className="rounded-2xl bg-cyan-700 p-4 ring-1 ring-white/15 backdrop-blur">
                                         <Package className="mb-3 h-5 w-5 text-cyan-200" />
                                         <p className="text-2xl font-bold">
                                             {products.length}
@@ -331,7 +331,7 @@ export default function Index({ products = [] }) {
                                         </p>
                                     </div>
 
-                                    <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur">
+                                    <div className="rounded-2xl bg-cyan-700 p-4 ring-1 ring-white/15 backdrop-blur">
                                         <ShoppingCart className="mb-3 h-5 w-5 text-cyan-200" />
                                         <p className="text-2xl font-bold">
                                             {cartItemsCount}
@@ -341,7 +341,7 @@ export default function Index({ products = [] }) {
                                         </p>
                                     </div>
 
-                                    <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur">
+                                    <div className="rounded-2xl bg-cyan-700 p-4 ring-1 ring-white/15 backdrop-blur">
                                         <ShieldCheck className="mb-3 h-5 w-5 text-cyan-200" />
                                         <p className="text-2xl font-bold">
                                             Pro
@@ -353,10 +353,10 @@ export default function Index({ products = [] }) {
                                 </div>
                             </div>
 
-                            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur"
+                            <div className="rounded-3xl border border-cyan-700 bg-white/10 p-6 shadow-2xl backdrop-blur"
                                 style={{
                                     marginBottom: "-0.9cm",
-                                    backgroundImage: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/home/ssd.jpg')",
+                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0,0,0,0.5)), url('/images/home/ssd.jpg')",
                                 }}
                             >
                                 <div className="flex items-center gap-3">
@@ -686,22 +686,22 @@ export default function Index({ products = [] }) {
                             )}
                         </section>
 
-                        <section className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-cyan-50 p-6 shadow-md dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+                        {/* INFORMATIONS CLIENT */}
+                        <section className="rounded-3xl border border-cyan-500 bg-cyan-400/90 backdrop-blur-md p-6 shadow-xl dark:border-cyan-800 dark:bg-cyan-700/40">
 
-                            {/* TITRE */}
-                            <h2 className="text-2xl font-extrabold tracking-wide text-slate-900 dark:text-white">
+                            <h2 className="text-2xl font-extrabold tracking-wide text-white dark:text-white">
                                 Informations client
                             </h2>
 
-                            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                                Ces informations seront utilisées pour enregistrer votre commande.
+                            <p className="mt-1 text-sm text-white dark:text-slate-400">
+                                Vos informations seront utilisées pour enregistrer votre commande.
                             </p>
 
                             <form onSubmit={submitOrder} className="mt-6 space-y-5">
 
                                 {/* NOM */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Nom complet
                                     </label>
                                     <div className="relative">
@@ -719,7 +719,7 @@ export default function Index({ products = [] }) {
 
                                 {/* TELEPHONE */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Téléphone
                                     </label>
                                     <div className="relative">
@@ -737,7 +737,7 @@ export default function Index({ products = [] }) {
 
                                 {/* EMAIL */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Email
                                     </label>
                                     <div className="relative">
@@ -755,7 +755,7 @@ export default function Index({ products = [] }) {
 
                                 {/* TYPE */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Type
                                     </label>
                                     <select
@@ -770,7 +770,7 @@ export default function Index({ products = [] }) {
 
                                 {/* ADRESSE */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Adresse
                                     </label>
                                     <div className="relative">
@@ -787,7 +787,7 @@ export default function Index({ products = [] }) {
 
                                 {/* PAIEMENT */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Mode de paiement
                                     </label>
 
@@ -810,7 +810,7 @@ export default function Index({ products = [] }) {
 
                                 {/* NOTES */}
                                 <div>
-                                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                    <label className="mb-2 block text-sm font-semibold text-white dark:text-slate-200">
                                         Note
                                     </label>
                                     <textarea

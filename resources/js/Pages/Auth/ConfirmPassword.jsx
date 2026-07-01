@@ -46,19 +46,19 @@ export default function ConfirmPassword() {
                             </h1>
 
                             <p className="mt-5 max-w-xl text-base leading-8 text-cyan-50">
-                                Cette zone de l’application est protégée. Veuillez
+                                Cette zone de l'application est protégée. Veuillez
                                 confirmer votre mot de passe avant de continuer afin
-                                de sécuriser l’accès aux actions sensibles.
+                                de sécuriser l'accès aux actions sensibles.
                             </p>
 
                             <div className="mt-8 space-y-4">
                                 <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10">
                                     <p className="font-semibold">
-                                        Vérification d’identité
+                                        Vérification d'identité
                                     </p>
                                     <p className="mt-1 text-sm text-cyan-100">
                                         La confirmation garantit que seul
-                                        l’utilisateur autorisé peut poursuivre.
+                                        l'utilisateur autorisé peut poursuivre.
                                     </p>
                                 </div>
 
@@ -68,7 +68,7 @@ export default function ConfirmPassword() {
                                     </p>
                                     <p className="mt-1 text-sm text-cyan-100">
                                         Idéal pour protéger les opérations sensibles
-                                        dans votre espace d’administration.
+                                        dans votre espace d'administration.
                                     </p>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@ export default function ConfirmPassword() {
                                 </div>
 
                                 <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400">
-                                    Cette zone de l’application est sécurisée.
+                                    Cette zone de l'application est sécurisée.
                                     Veuillez confirmer votre mot de passe avant de
                                     continuer.
                                 </div>

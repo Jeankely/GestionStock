@@ -316,7 +316,7 @@ export default function Index({
             )}
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                             <div className="flex items-start gap-4">
@@ -325,17 +325,15 @@ export default function Index({
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Module de vente
-                                    </p>
+                                    
 
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Gestion des ventes
+                                        GESTION DES VENTES
                                     </h1>
 
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Consultez les ventes passées par les clients,
-                                        assignez les livreurs, validez les livraisons ou annulez si nécessaire.
+                                        Consultation des ventes passées par les clients et
+                                        assignation des commandes vers livreurs.
                                     </p>
                                 </div>
                             </div>
@@ -391,7 +389,7 @@ export default function Index({
                             <Wallet className="h-10 w-10 rounded-2xl bg-violet-50 p-2 text-violet-600 dark:bg-violet-900/20 dark:text-violet-300" />
                             <div>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Chiffre d’affaires
+                                    Chiffre d'affaires
                                 </p>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                                     {formatMoney(stats.turnover)}
@@ -663,7 +661,7 @@ export default function Index({
                             Aucune vente trouvée
                         </h3>
                         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                            Les ventes apparaîtront ici lorsqu’un client passe une commande.
+                            Les ventes apparaîtront ici lorsqu'un client passe une commande.
                         </p>
                     </section>
                 )}

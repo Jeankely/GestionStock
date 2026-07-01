@@ -72,23 +72,17 @@ export default function Index({ admins = [], stats = {} }) {
             )}
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-blue-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                             <div className="flex items-start gap-4">
                                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
                                     <ShieldCheck className="h-7 w-7" />
                                 </div>
-
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Gestion des accès
-                                    </p>
-
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Administrateurs
+                                        ADMINISTRATEURS
                                     </h1>
-
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
                                         Consultez les comptes administrateurs et
                                         ajoutez un nouvel admin.
@@ -98,7 +92,7 @@ export default function Index({ admins = [], stats = {} }) {
 
                             <Link
                                 href={route("administrateurs.create")}
-                                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
+                                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-white px-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
                             >
                                 <Plus className="h-4 w-4" />
                                 Ajouter un admin
@@ -228,12 +222,6 @@ export default function Index({ admins = [], stats = {} }) {
                                         </div>
                                     </div>
 
-                                    <div className="rounded-2xl bg-cyan-50 px-4 py-3 text-center dark:bg-cyan-900/20">
-                                        <ShieldCheck className="mx-auto h-6 w-6 text-cyan-600 dark:text-cyan-300" />
-                                        <p className="mt-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300">
-                                            Administrateur
-                                        </p>
-                                    </div>
                                 </div>
                             </article>
                         ))}

@@ -163,7 +163,7 @@ export default function VerticalLayout({
                                     JK TechStore
                                 </h2>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                                    Panneau d'administration
+                                    Espace d'administration
                                 </p>
                             </div>
                         </Link>

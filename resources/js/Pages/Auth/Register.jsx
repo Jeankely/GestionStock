@@ -47,64 +47,28 @@ export default function Register() {
 
                 <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">
                     <div className="grid w-full items-center gap-10 lg:grid-cols-2">
-                        {/* Partie gauche */}
-                        <div className="hidden text-white lg:block">
-
-                            <h1 className="mt-6 text-4xl font-extrabold leading-tight xl:text-5xl">
-                                Créez votre compte administrateur
-                            </h1>
-
-                            <p className="mt-5 max-w-xl text-base leading-8 text-cyan-50">
-                                Rejoignez votre plateforme de gestion de vente de
-                                matériel informatique et accédez à un espace moderne
-                                pour gérer vos produits, catégories, ventes, clients
-                                et stocks.
-                            </p>
-
-                            <div className="mt-8 space-y-4">
-                                <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10">
-                                    <p className="font-semibold">
-                                        Gestion complète
-                                    </p>
-                                    <p className="mt-1 text-sm text-cyan-100">
-                                        Centralisez vos opérations commerciales dans
-                                        un tableau de bord unique.
-                                    </p>
-                                </div>
-
-                                <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10">
-                                    <p className="font-semibold">
-                                        Accès sécurisé
-                                    </p>
-                                    <p className="mt-1 text-sm text-cyan-100">
-                                        Protégez les informations sensibles grâce à un
-                                        espace réservé aux utilisateurs autorisés.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         {/* Formulaire */}
                         <div className="mx-auto w-full max-w-lg">
-                            <div className="rounded-3xl border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-slate-800 dark:bg-slate-900/95">
+                            <div className="rounded-3xl border border-white/20 bg-cyan-800/90 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-slate-800 dark:bg-slate-900/95">
                                 <div className="mb-8 text-center">
                                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
                                         <UserPlus className="h-8 w-8" />
                                     </div>
 
-                                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                                    <h2 className="text-3xl font-extrabold text-white dark:text-white">
                                         Inscription
                                     </h2>
 
-                                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                                        Créez votre compte pour accéder à la plateforme
+                                    <p className="mt-2 text-sm text-white dark:text-slate-400">
+                                        Créez votre compte administrateur
                                     </p>
                                 </div>
 
                                 <form onSubmit={submit} className="space-y-5">
                                     {/* Nom */}
                                     <div>
-                                        <InputLabel htmlFor="name" value="Nom complet" />
+                                        <InputLabel htmlFor="name" value="Nom complet" className="text-white" />
 
                                         <div className="relative mt-2">
                                             <User className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
@@ -127,7 +91,7 @@ export default function Register() {
 
                                     {/* Email */}
                                     <div>
-                                        <InputLabel htmlFor="email" value="Adresse email" />
+                                        <InputLabel htmlFor="email" value="Adresse email" className="text-white"/>
 
                                         <div className="relative mt-2">
                                             <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
@@ -150,7 +114,7 @@ export default function Register() {
 
                                     {/* Mot de passe */}
                                     <div>
-                                        <InputLabel htmlFor="password" value="Mot de passe" />
+                                        <InputLabel htmlFor="password" value="Mot de passe" className="text-white" />
 
                                         <div className="relative mt-2">
                                             <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
@@ -188,6 +152,7 @@ export default function Register() {
                                         <InputLabel
                                             htmlFor="password_confirmation"
                                             value="Confirmer le mot de passe"
+                                            className="text-white"
                                         />
 
                                         <div className="relative mt-2">
@@ -234,7 +199,7 @@ export default function Register() {
                                             href={route('login')}
                                             className="text-sm font-medium text-cyan-700 transition hover:text-cyan-800 dark:text-cyan-400 dark:hover:text-cyan-300"
                                         >
-                                            Déjà inscrit ?
+                                           <span className="text-white">Déjà inscrit ?</span>
                                         </Link>
 
                                         <PrimaryButton

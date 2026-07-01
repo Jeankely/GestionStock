@@ -73,7 +73,7 @@ export default function Index({
             <Head title="Rapports" />
 
             <div className="space-y-6">
-                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 shadow-xl">
+                <section className="overflow-hidden rounded-3xl bg-gradient-to-r from-pink-600 via-sky-600 to-cyan-700 shadow-xl">
                     <div className="relative p-6 text-white sm:p-8">
                         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                         <div className="absolute -bottom-14 left-20 h-36 w-36 rounded-full bg-cyan-200/20 blur-3xl" />
@@ -85,16 +85,12 @@ export default function Index({
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Analyse commerciale
-                                    </p>
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-                                        Rapports et statistiques
+                                        RAPPORT ET STATISTIQUES
                                     </h1>
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Suivez le chiffre d'affaires, les produits vendus,
-                                        les nouveaux clients et l'évolution mensuelle depuis
-                                        les vraies données de la base.
+                                        Suivre le chiffre d'affaires, les produits vendus,
+                                        les nouveaux clients et l'évolution mensuelle.
                                     </p>
                                 </div>
                             </div>

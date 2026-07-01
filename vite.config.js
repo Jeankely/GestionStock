@@ -3,8 +3,9 @@ import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+    /*CONFIGURATION ACCES LOCAL*/
     server: {
-        host: '192.168.88.23',
+        host: '192.168.137.1',
         port: 5173,
     },
     plugins: [

@@ -59,7 +59,7 @@ export default function ResetPassword({ token, email }) {
 
                             <p className="mt-5 max-w-xl text-base leading-8 text-cyan-50">
                                 Créez un nouveau mot de passe pour récupérer
-                                l’accès à votre espace de gestion de vente de
+                                l'accès à votre espace de gestion de vente de
                                 matériel informatique.
                             </p>
 

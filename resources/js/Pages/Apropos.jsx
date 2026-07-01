@@ -29,11 +29,6 @@ export default function Apropos() {
                         <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
                             À propos de l'application
                         </h1>
-
-                        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg">
-                            Découvrez le contexte, le développeur et l'objectif de ce
-                            système de gestion de vente de matériel informatique.
-                        </p>
                     </div>
                 </div>
             </section>
@@ -177,24 +172,6 @@ export default function Apropos() {
                                 la performance commerciale, l’organisation interne et la
                                 traçabilité des transactions.
                             </p>
-                        </div>
-
-                        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                            <div className="flex items-start gap-4">
-                                <div className="rounded-2xl bg-cyan-100 p-3 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
-                                    <ShieldCheck className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">
-                                        Vision du projet
-                                    </h3>
-                                    <p className="mt-2 text-slate-600 leading-7 dark:text-slate-400">
-                                        Offrir une solution moderne, fiable et efficace
-                                        pour la gestion commerciale dans le domaine du
-                                        matériel informatique.
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

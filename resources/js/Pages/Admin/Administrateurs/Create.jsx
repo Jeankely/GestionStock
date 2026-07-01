@@ -65,16 +65,12 @@ export default function Create() {
                                 </div>
 
                                 <div>
-                                    <p className="text-sm font-medium text-cyan-100">
-                                        Gestion des accès
-                                    </p>
-
                                     <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
                                         Ajouter un administrateur
                                     </h1>
 
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100">
-                                        Créez un compte utilisateur avec le rôle
+                                        Créer un compte du gérant avec le rôle
                                         administrateur.
                                     </p>
                                 </div>
@@ -303,8 +299,7 @@ export default function Create() {
                                     </h3>
 
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Vérifiez les informations avant
-                                        d’enregistrer.
+                                        Vérifiez les informations avant d'enregistrer.
                                     </p>
                                 </div>
                             </div>

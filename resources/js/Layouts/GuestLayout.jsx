@@ -74,7 +74,7 @@ export default function GuestLayout({ children }) {
                             </div>
                         </Link>
 
-                        {/* MENU DESKTOP */}
+                        {/* MENU */}
                         <div className="hidden items-center gap-3 md:flex">
                             <nav className="flex items-center gap-2">
                                 {navItems.map((item, index) => {
@@ -109,7 +109,7 @@ export default function GuestLayout({ children }) {
                             </Link>
                         </div>
 
-                        {/* MOBILE BUTTON */}
+                        {/* Bouton pour mobile */}
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
