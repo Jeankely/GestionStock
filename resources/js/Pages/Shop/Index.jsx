@@ -291,8 +291,11 @@ export default function Index({ products = [] }) {
 
             <div className="min-h-screen bg-slate-50 dark:bg-slate-950"
                 style={{
-                    backgroundImage: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/home/fond.png')",
+                    backgroundImage: "url('/images/home/fond.png')",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
                 }}>
+
                 <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-950 text-white">
                     <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl" />
                     <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
@@ -583,8 +586,16 @@ export default function Index({ products = [] }) {
                         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                             <div className="mb-4 flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-3">
-                                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-300">
-                                        <ShoppingCart className="h-5 w-5" />
+
+                                    <div
+                                        className="rounded-2xl p-6 text-white"
+                                        style={{
+                                            backgroundImage: "url('/images/home/panier.jpg')",
+                                            backgroundSize: "cover",
+                                            backgroundPosition: "center",
+                                            backgroundRepeat: "no-repeat",
+                                        }}
+                                    >
                                     </div>
 
                                     <div>
@@ -688,10 +699,20 @@ export default function Index({ products = [] }) {
 
                         {/* INFORMATIONS CLIENT */}
                         <section className="rounded-3xl border border-cyan-500 bg-cyan-400/90 backdrop-blur-md p-6 shadow-xl dark:border-cyan-800 dark:bg-cyan-700/40">
+                            <div
+                                className="rounded-2xl p-6 text-white"
+                                style={{
+                                    backgroundImage: "url('/images/home/informationclient.jpg')",
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                }}
+                            >
+                                <h1 className="text-2xl font-extrabold tracking-wide text-blue-950 dark:text-white">
+                                    Informations client
+                                </h1>
+                            </div>
 
-                            <h2 className="text-2xl font-extrabold tracking-wide text-white dark:text-white">
-                                Informations client
-                            </h2>
 
                             <p className="mt-1 text-sm text-white dark:text-slate-400">
                                 Vos informations seront utilisées pour enregistrer votre commande.

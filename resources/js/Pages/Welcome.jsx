@@ -66,23 +66,12 @@ export default function Home() {
         },
         {
             title: "Ordinateurs de bureau",
-            subtitle: "Ce PC est utilisé à un endroit fixe.",
+            subtitle: "PC est utilisé à un endroit fixe ou en Administration.",
             image: "/images/home/bureau.jpg",
             icon: Monitor,
         },
-        
-        {
-            title: "Claviers",
-            subtitle: "Accessoires de saisie",
-            image: "/images/home/keyboard.jpg",
-            icon: Keyboard,
-        },
-        {
-            title: "Souris",
-            subtitle: "Précision et confort",
-            image: "/images/home/mouse.jpg",
-            icon: Mouse,
-        },
+
+
         {
             title: "Disques durs HDD/SSD",
             subtitle: "Stockage de données fiable et rapide",
@@ -93,9 +82,9 @@ export default function Home() {
 
     const categories = [
         {
-            title: "Moniteurs",
-            text: "Écrans et affichages professionnels pour vos clients.",
-            image: "/images/home/monitor.jpg",
+            title: "Moniteur ou Ecran",
+            text: "Écrans et affichages professionnels.",
+            image: "/images/home/monitor.jpeg",
             icon: Monitor,
         },
         {
@@ -125,6 +114,13 @@ export default function Home() {
             image: "/images/home/printer.jpg",
             icon: Printer,
         },
+
+        {
+            title: "Souris",
+            text: "Précision et confort",
+            image: "/images/home/mouse.jpg",
+            icon: Mouse,
+        },
     ];
 
     const highlights = [
@@ -150,7 +146,14 @@ export default function Home() {
             <Head title="Accueil" />
 
             {/* GRANDE SECTION */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-950 text-white">
+            <section className="relative overflow-hidden text-white"
+                style={{
+                    backgroundImage: "url('/images/fond3.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div className="absolute inset-0 opacity-25">
                     <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-white blur-3xl" />
                     <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-300 blur-3xl" />
@@ -162,37 +165,36 @@ export default function Home() {
                         <div className="text-center lg:text-left">
                             {/* Titre projet */}
                             <h1
-                            className="text-4xl font-extrabold leading-tight sm:text-6xl lg:text-5xl"
-                            style={{
-                            marginTop: "-10cm",
-                            fontFamily: "'Times New Roman', Times, serif",
-                            }}
+                                className="text-4xl font-extrabold leading-tight sm:text-6xl lg:text-5xl"
+                                style={{
+                                    marginTop: "-6cm",
+                                    fontFamily: "'Times New Roman', Times, serif",
+                                }}
                             >
-                            Système de gestion de vente
-                            <span className="mt-2 block sm:text-5xl text-cyan-200">
-                            de matériel informatique
-                            </span>
+                                Système de gestion de vente
+                                <span className="mt-2 block sm:text-5xl text-cyan-300">
+                                    de matériel informatique
+                                </span>
                             </h1>
 
                             <p
-                            className="mx-auto mt-6 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg lg:mx-0"
-                            style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                                className="mx-auto mt-6 max-w-2xl text-base leading-7 text-cyan-50 sm:text-lg lg:mx-0"
+                                style={{ fontFamily: "'Times New Roman', Times, serif" }}
                             >
-                            Gérez vos produits, vos ventes, vos clients et
-                            votre stock dans une plateforme professionnelle,
-                            rapide et adaptée aux besoins d'un magasin
-                            informatique.
+                                Gestion des produits, des ventes, les clients et
+                                nore stock dans une plateforme professionnelle d'un magasin
+                                éléctronique.
                             </p>
 
                             {/* Inscription nouveau client */}
                             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
-                                <Link
+                                {/*<Link
                                     href={route("register")}
                                     className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-cyan-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                                 >
                                     S'inscrire
                                     <ArrowRight className="h-4 w-4" />
-                                </Link>
+                                </Link>*/}
 
                                 <Link
                                     href={route("about")}
@@ -232,11 +234,10 @@ export default function Home() {
                                     return (
                                         <div
                                             key={index}
-                                            className={`group overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-md ${
-                                                index === 0
-                                                    ? "col-span-2"
-                                                    : ""
-                                            }`}
+                                            className={`group overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-md ${index === 0
+                                                ? "col-span-2"
+                                                : ""
+                                                }`}
                                         >
                                             <div className="relative h-52 overflow-hidden bg-slate-100 sm:h-56 dark:bg-slate-800">
                                                 <img
@@ -295,12 +296,12 @@ export default function Home() {
             <section className="bg-slate-50 py-16 dark:bg-slate-950/50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-10 text-center">
-                    <h2
-                    className="mt-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl animate-title"
-                    style={{ fontFamily: "'Times New Roman', Times, serif" }}
-                    >
-                    Quelques outils et équipements informatiques dans notre catalogue.
-                    </h2>
+                        <h2
+                            className="mt-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl animate-title"
+                            style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                        >
+                            Quelques outils et équipements informatiques dans notre Magasin.
+                        </h2>
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

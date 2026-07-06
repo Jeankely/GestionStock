@@ -16,8 +16,15 @@ export default function Apropos() {
         <GuestLayout>
             <Head title="À propos" />
 
-            {/* HERO */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-slate-900 text-white">
+            {/* corps */}
+            <section className="relative overflow-hidden text-white"
+                style={{
+                    backgroundImage: "url('/images/fond3.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute -top-20 -left-10 h-72 w-72 rounded-full bg-white blur-3xl" />
                     <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-300 blur-3xl" />
@@ -26,7 +33,7 @@ export default function Apropos() {
                 <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                     <div className="mx-auto max-w-3xl text-center">
                     
-                        <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
+                        <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl text-white-200">
                             À propos de l'application
                         </h1>
                     </div>

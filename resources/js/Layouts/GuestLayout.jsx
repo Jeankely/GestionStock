@@ -43,7 +43,7 @@ export default function GuestLayout({ children }) {
 
     return (
         <div className="flex min-h-screen flex-col bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-            <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 shadow-md backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70">
+            <header className="sticky top-0 z-50 border-b border-white bg-cyan-800 shadow-md backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-20 items-center justify-between">
 
@@ -56,7 +56,7 @@ export default function GuestLayout({ children }) {
                             <div className="leading-tight">
                                 <div className="flex items-center gap-2">
                                     <h1
-                                        className="text-2xl font-extrabold tracking-wide text-black dark:text-white sm:text-4xl"
+                                        className="text-2xl font-extrabold tracking-wide text-white dark:text-white sm:text-4xl"
                                         style={{ fontFamily: "'Times New Roman', Times, serif" }}
                                     >
                                         JK TechStore
@@ -66,7 +66,7 @@ export default function GuestLayout({ children }) {
                                 </div>
 
                                 <p
-                                    className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm"
+                                    className="text-xs text-white dark:text-slate-400 sm:text-sm"
                                     style={{ fontFamily: "'Times New Roman', Times, serif" }}
                                 >
                                     La performance au cœur du matériel informatique
@@ -86,11 +86,10 @@ export default function GuestLayout({ children }) {
                                             key={index}
                                             href={item.href}
                                             className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-extrabold transition-all duration-300
-                                                ${isActive
-                                                    ? "bg-cyan-600 text-white shadow-lg scale-105"
-                                                    : "text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 hover:scale-105 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-cyan-400"
-                                                }
-                                            `}
+                                                 ${isActive
+                                                    ? "bg-blue-700 text-white shadow-lg scale-105"
+                                                    : "text-white hover:bg-blue-800 hover:text-white hover:scale-105"
+                                                }`}
                                         >
                                             <Icon className="h-4 w-4" />
                                             <span>{item.label}</span>
@@ -126,7 +125,7 @@ export default function GuestLayout({ children }) {
                     {/* MOBILE MENU */}
                     {mobileMenuOpen && (
                         <div className="pb-4 md:hidden">
-                            <div className="mt-2 space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                            <div className="mt-2 space-y-2 rounded-2xl border border-blue-900 bg-blue-950 p-3 shadow-lg">
                                 {navItems.map((item, index) => {
                                     const Icon = item.icon;
                                     const isActive = url === item.href;
@@ -136,11 +135,11 @@ export default function GuestLayout({ children }) {
                                             key={index}
                                             href={item.href}
                                             className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-extrabold transition
-                                                ${isActive
-                                                    ? "bg-cyan-600 text-white"
-                                                    : "text-slate-700 hover:bg-cyan-50 hover:text-cyan-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-cyan-400"
+                        ${isActive
+                                                    ? "bg-blue-700 text-white"
+                                                    : "text-white hover:bg-blue-800 hover:text-white"
                                                 }
-                                            `}
+                    `}
                                             onClick={() => setMobileMenuOpen(false)}
                                         >
                                             <Icon className="h-4 w-4" />

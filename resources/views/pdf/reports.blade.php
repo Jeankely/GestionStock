@@ -16,7 +16,7 @@
         }
 
         .header {
-            background: #0ea5e9;
+            background: #0c013b;
             color: white;
             padding: 18px;
             border-radius: 8px;
@@ -38,8 +38,8 @@
             font-size: 16px;
             font-weight: bold;
             margin: 20px 0 10px;
-            color: #0369a1;
-            border-bottom: 2px solid #0ea5e9;
+            color: #686b6c;
+            border-bottom: 2px solid #0a0120;
             padding-bottom: 5px;
         }
 
@@ -82,7 +82,7 @@
 
         table.data th {
             background: #e0f2fe;
-            color: #075985;
+            color: #0e0231;
             text-align: left;
             padding: 8px;
             border: 1px solid #bae6fd;
@@ -97,7 +97,7 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 20px;
-            background: #dcfce7;
+            background: #dee0df;
             color: #166534;
             font-weight: bold;
             font-size: 11px;
@@ -215,7 +215,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="2">Aucune donnée mensuelle disponible.</td>
+                    <td colspan="2">Aucune données mensuelle disponible.</td>
                 </tr>
             @endforelse
         </tbody>

@@ -16,7 +16,14 @@ export default function Contact() {
         <GuestLayout>
             <Head title="Contact" />
 
-            <section className="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-slate-900 text-white">
+            <section className="relative overflow-hidden text-white"
+                style={{
+                    backgroundImage: "url('/images/fond3.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute -top-20 -left-10 h-72 w-72 rounded-full bg-white blur-3xl" />
                     <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-300 blur-3xl" />
