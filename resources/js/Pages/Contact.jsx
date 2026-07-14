@@ -1,6 +1,6 @@
 import React from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import {
     Mail,
     Phone,
@@ -12,6 +12,30 @@ import {
 } from "lucide-react";
 
 export default function Contact() {
+    const {
+        data,
+        setData,
+        post,
+        processing,
+        errors,
+        reset,
+        clearErrors,
+    } = useForm({
+        name: "",
+        email: "",
+        message: "",
+    });
+
+    const submit = (event) => {
+        event.preventDefault();
+        clearErrors();
+
+        post(route("contact.send"), {
+            preserveScroll: true,
+            onSuccess: () => reset(),
+        });
+    };
+
     return (
         <GuestLayout>
             <Head title="Contact" />
@@ -123,7 +147,7 @@ export default function Contact() {
                                 </p>
                             </div>
 
-                            <form className="space-y-6">
+                            <form onSubmit={submit} className="space-y-6">
                                 <div className="grid gap-6 md:grid-cols-2">
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -132,8 +156,17 @@ export default function Contact() {
                                         <div className="relative">
                                             <User className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                                             <input
+                                                id="name"
+                                                name="name"
                                                 type="text"
+                                                value={data.name}
+                                                onChange={(event) =>
+                                                    setData("name", event.target.value)
+                                                }
                                                 placeholder="Votre nom"
+                                                autoComplete="name"
+                                                required
+                                                aria-invalid={Boolean(errors.name)}
                                                 className="w-full rounded-2xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-slate-800 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:ring-cyan-900/40"
                                             />
                                         </div>
@@ -146,8 +179,17 @@ export default function Contact() {
                                         <div className="relative">
                                             <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                                             <input
+                                                id="email"
+                                                name="email"
                                                 type="email"
+                                                value={data.email}
+                                                onChange={(event) =>
+                                                    setData("email", event.target.value)
+                                                }
                                                 placeholder="Votre email"
+                                                autoComplete="email"
+                                                required
+                                                aria-invalid={Boolean(errors.email)}
                                                 className="w-full rounded-2xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-slate-800 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:ring-cyan-900/40"
                                             />
                                         </div>
@@ -161,8 +203,17 @@ export default function Contact() {
                                     <div className="relative">
                                         <MessageSquare className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-slate-400" />
                                         <textarea
+                                            id="message"
+                                            name="message"
+                                            value={data.message}
+                                            onChange={(event) =>
+                                                setData("message", event.target.value)
+                                            }
                                             placeholder="Votre message"
                                             rows="6"
+                                            maxLength={5000}
+                                            required
+                                            aria-invalid={Boolean(errors.message)}
                                             className="w-full rounded-2xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-slate-800 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:ring-cyan-900/40"
                                         ></textarea>
                                     </div>
@@ -170,10 +221,13 @@ export default function Contact() {
 
                                 <button
                                     type="submit"
-                                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-cyan-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-800 hover:shadow-xl"
+                                    disabled={processing}
+                                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-cyan-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-800 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                                 >
                                     <Send className="h-4 w-4" />
-                                    Envoyer le message
+                                    {processing
+                                        ? "Envoi en cours..."
+                                        : "Envoyer le message"}
                                 </button>
                             </form>
                         </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\SalePaymentController;
 use App\Http\Controllers\LivreurController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -107,6 +108,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/about', [ClientController::class, 'apropos'])->name('about');
 Route::get('/contact', [ClientController::class, 'contact'])->name('contact');
+
+Route::post('/contact', [ContactController::class, 'send'])
+    ->middleware('throttle:5,1')
+    ->name('contact.send');
 
 // Boutique publique
 Route::get('/produits', [PublicShopController::class, 'index'])->name('shop.index');
